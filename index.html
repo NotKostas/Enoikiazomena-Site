@@ -22,16 +22,17 @@
         /* Host Box */
         .host-info {
             position: fixed; top: 20px; left: 20px; background: var(--deep-blue);
-            padding: 20px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 1000; width: 180px; text-align: center; border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 1000; width: 200px; text-align: center; border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(15px);
         }
-        .host-photo { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 3px solid var(--primary); }
-        .host-info h4 { margin: 5px 0; font-size: 18px; color: var(--primary); }
-        .host-info p { margin: 2px 0; font-size: 12px; color: #ddd; }
+        .host-photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid var(--primary); }
+        .host-info h4 { margin: 5px 0; font-size: 16px; color: var(--primary); }
+        .host-info p { margin: 2px 0; font-size: 11px; color: #ddd; word-wrap: break-word; }
 
         .header { text-align: center; color: white; padding: 100px 20px 60px; text-shadow: 2px 4px 15px rgba(0,0,0,0.5); }
         .header h1 { font-size: 4.5rem; margin: 0; font-weight: 900; }
+        .header p { font-size: 1.2rem; opacity: 0.9; margin-top: 10px; }
 
         .container { max-width: 1300px; margin: auto; padding: 20px; }
 
@@ -55,16 +56,23 @@
         }
         .next { right: 15px; } .prev { left: 15px; }
 
-        .card-body { padding: 35px; text-align: center; }
-        .card-body h3 { color: var(--primary); margin-top: 0; font-size: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        .card-body { padding: 30px; text-align: center; }
+        .card-body h3 { color: var(--primary); margin-top: 0; font-size: 1.8rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
 
-        .booking-box { background: rgba(255, 255, 255, 0.05); padding: 25px; border-radius: 25px; margin-top: 20px; }
-        label { font-size: 13px; font-weight: bold; display: block; margin-top: 15px; text-align: left; color: var(--primary); text-transform: uppercase; }
-        input[type="date"] { width: 100%; padding: 14px; margin-top: 8px; border-radius: 15px; border: 1px solid var(--primary); font-size: 16px; background: white; color: #000; font-weight: bold; text-align: center; }
+        .booking-box { background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 25px; margin-top: 20px; }
+        label { font-size: 12px; font-weight: bold; display: block; margin-top: 15px; text-align: left; color: var(--primary); text-transform: uppercase; }
         
-        .total-price-box { background: var(--secondary); color: white; padding: 15px; border-radius: 18px; margin-top: 20px; display: none; font-weight: 800; font-size: 1.2rem; }
+        /* Fixed Inputs */
+        input[type="date"] { 
+            width: 100%; max-width: 100%; padding: 12px; margin-top: 8px; border-radius: 12px; 
+            border: 1px solid var(--primary); font-size: 15px; background: white; color: #000; 
+            font-weight: bold; text-align: center; box-sizing: border-box; /* Fixes protrusion */
+        }
+        
+        .total-price-box { background: var(--secondary); color: white; padding: 15px; border-radius: 18px; margin-top: 20px; display: none; font-weight: 800; font-size: 1.1rem; }
 
-        .btn-book-now { width: 100%; background: var(--accent); color: white; padding: 20px; border: none; border-radius: 18px; font-weight: 900; font-size: 1.3rem; cursor: pointer; margin-top: 20px; }
+        .btn-book-now { width: 100%; background: var(--accent); color: white; padding: 18px; border: none; border-radius: 18px; font-weight: 900; font-size: 1.2rem; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .btn-book-now:hover { background: var(--primary); transform: scale(1.02); }
 
         .building-box { max-width: 1100px; margin: 80px auto; background: var(--deep-blue); padding: 50px; border-radius: 40px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
         .build-container { height: 600px !important; }
@@ -77,23 +85,25 @@
         .choice-wa { background: #25D366; } .choice-viber { background: #7360f2; } .choice-chat { background: var(--accent); }
         .close-modal { position: absolute; top: 20px; right: 25px; font-size: 35px; cursor: pointer; color: #fff; }
 
-        footer { text-align: center; padding: 80px 20px; color: rgba(255,255,255,0.5); }
+        footer { text-align: center; padding: 80px 20px; color: rgba(255,255,255,0.5); font-weight: bold; }
 
-        @media (max-width: 768px) { .host-info { position: static; width: 90%; margin: 20px auto; } .header h1 { font-size: 3rem; } .build-container { height: 400px !important; } }
+        @media (max-width: 768px) { .host-info { position: static; width: 90%; margin: 20px auto; } .header h1 { font-size: 3rem; } }
     </style>
 </head>
 <body>
 
+    <!-- Host Info Box -->
     <div class="host-info">
         <img src="me.jpg" class="host-photo" onerror="this.src='https://placeholder.com'">
         <h4>Host: Kwstas</h4>
-        <p>+30 6984725380</p>
+        <p><strong>Mobile:</strong> 6984725380</p>
+        <p><strong>Email:</strong> tsakirogloukostas928@gmail.com</p>
         <p>Laskos Studios Official</p>
     </div>
 
     <div class="header">
         <h1>Laskos Studios</h1>
-        <p>Direct Booking | Day/Month/Year Format</p>
+        <p>Premium Seaside Accommodation</p>
     </div>
 
     <div class="container">
@@ -102,20 +112,25 @@
             <div class="card" id="apt1">
                 <div class="slideshow-container">
                     <img class="slides1 mySlides active" src="r1-1.jpg">
-                    <img class="slides1 mySlides" src="r1-2.jpg"><img class="slides1 mySlides" src="r1-3.jpg">
-                    <img class="slides1 mySlides" src="r1-4.jpg"><img class="slides1 mySlides" src="r1-5.jpg">
-                    <img class="slides1 mySlides" src="r1-6.jpg"><img class="slides1 mySlides" src="r1-7.jpg">
-                    <img class="slides1 mySlides" src="r1-8.jpg"><img class="slides1 mySlides" src="r1-9.jpg">
-                    <img class="slides1 mySlides" src="r1-10.jpg"><img class="slides1 mySlides" src="r1-11.jpg">
+                    <img class="slides1 mySlides" src="r1-2.jpg">
+                    <img class="slides1 mySlides" src="r1-3.jpg">
+                    <img class="slides1 mySlides" src="r1-4.jpg">
+                    <img class="slides1 mySlides" src="r1-5.jpg">
+                    <img class="slides1 mySlides" src="r1-6.jpg">
+                    <img class="slides1 mySlides" src="r1-7.jpg">
+                    <img class="slides1 mySlides" src="r1-8.jpg">
+                    <img class="slides1 mySlides" src="r1-9.jpg">
+                    <img class="slides1 mySlides" src="r1-10.jpg">
+                    <img class="slides1 mySlides" src="r1-11.jpg">
                     <div class="prev" onclick="plusSlides(0, -1)">&#10094;</div>
                     <div class="next" onclick="plusSlides(0, 1)">&#10095;</div>
                 </div>
                 <div class="card-body">
                     <h3>Apartment 1</h3>
                     <div class="booking-box">
-                        <label>Arrival Date:</label>
+                        <label>Arrival (Day/Month/Year):</label>
                         <input type="date" class="in-date" onchange="updatePrice(1)">
-                        <label>Departure Date:</label>
+                        <label>Departure (Day/Month/Year):</label>
                         <input type="date" class="out-date" onchange="updatePrice(1)">
                         <div id="total-box1" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(1)">BOOK NOW</button>
@@ -127,10 +142,14 @@
             <div class="card" id="apt2">
                 <div class="slideshow-container">
                     <img class="slides2 mySlides active" src="r2-1.jpg">
-                    <img class="slides2 mySlides" src="r2-2.jpg"><img class="slides2 mySlides" src="r2-3.jpg">
-                    <img class="slides2 mySlides" src="r2-4.jpg"><img class="slides2 mySlides" src="r2-5.jpg">
-                    <img class="slides2 mySlides" src="r2-6.jpg"><img class="slides2 mySlides" src="r2-7.jpg">
-                    <img class="slides2 mySlides" src="r2-8.jpg"><img class="slides2 mySlides" src="r2-9.jpg">
+                    <img class="slides2 mySlides" src="r2-2.jpg">
+                    <img class="slides2 mySlides" src="r2-3.jpg">
+                    <img class="slides2 mySlides" src="r2-4.jpg">
+                    <img class="slides2 mySlides" src="r2-5.jpg">
+                    <img class="slides2 mySlides" src="r2-6.jpg">
+                    <img class="slides2 mySlides" src="r2-7.jpg">
+                    <img class="slides2 mySlides" src="r2-8.jpg">
+                    <img class="slides2 mySlides" src="r2-9.jpg">
                     <img class="slides2 mySlides" src="r2-10.jpg">
                     <div class="prev" onclick="plusSlides(1, -1)">&#10094;</div>
                     <div class="next" onclick="plusSlides(1, 1)">&#10095;</div>
@@ -138,9 +157,9 @@
                 <div class="card-body">
                     <h3>Apartment 2</h3>
                     <div class="booking-box">
-                        <label>Arrival Date:</label>
+                        <label>Arrival (Day/Month/Year):</label>
                         <input type="date" class="in-date" onchange="updatePrice(2)">
-                        <label>Departure Date:</label>
+                        <label>Departure (Day/Month/Year):</label>
                         <input type="date" class="out-date" onchange="updatePrice(2)">
                         <div id="total-box2" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(2)">BOOK NOW</button>
@@ -152,12 +171,18 @@
             <div class="card" id="apt3">
                 <div class="slideshow-container">
                     <img class="slides3 mySlides active" src="r3-1.jpg">
-                    <img class="slides3 mySlides" src="r3-2.jpg"><img class="slides3 mySlides" src="r3-3.jpg">
-                    <img class="slides3 mySlides" src="r3-4.jpg"><img class="slides3 mySlides" src="r3-5.jpg">
-                    <img class="slides3 mySlides" src="r3-6.jpg"><img class="slides3 mySlides" src="r3-7.jpg">
-                    <img class="slides3 mySlides" src="r3-8.jpg"><img class="slides3 mySlides" src="r3-9.jpg">
-                    <img class="slides3 mySlides" src="r3-10.jpg"><img class="slides3 mySlides" src="r3-11.jpg">
-                    <img class="slides3 mySlides" src="r3-12.jpg"><img class="slides3 mySlides" src="r3-13.jpg">
+                    <img class="slides3 mySlides" src="r3-2.jpg">
+                    <img class="slides3 mySlides" src="r3-3.jpg">
+                    <img class="slides3 mySlides" src="r3-4.jpg">
+                    <img class="slides3 mySlides" src="r3-5.jpg">
+                    <img class="slides3 mySlides" src="r3-6.jpg">
+                    <img class="slides3 mySlides" src="r3-7.jpg">
+                    <img class="slides3 mySlides" src="r3-8.jpg">
+                    <img class="slides3 mySlides" src="r3-9.jpg">
+                    <img class="slides3 mySlides" src="r3-10.jpg">
+                    <img class="slides3 mySlides" src="r3-11.jpg">
+                    <img class="slides3 mySlides" src="r3-12.jpg">
+                    <img class="slides3 mySlides" src="r3-13.jpg">
                     <img class="slides3 mySlides" src="r3-14.jpg">
                     <div class="prev" onclick="plusSlides(2, -1)">&#10094;</div>
                     <div class="next" onclick="plusSlides(2, 1)">&#10095;</div>
@@ -165,9 +190,9 @@
                 <div class="card-body">
                     <h3>Apartment 3</h3>
                     <div class="booking-box">
-                        <label>Arrival Date:</label>
+                        <label>Arrival (Day/Month/Year):</label>
                         <input type="date" class="in-date" onchange="updatePrice(3)">
-                        <label>Departure Date:</label>
+                        <label>Departure (Day/Month/Year):</label>
                         <input type="date" class="out-date" onchange="updatePrice(3)">
                         <div id="total-box3" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(3)">BOOK NOW</button>
@@ -176,15 +201,18 @@
             </div>
         </div>
 
-        <!-- BUILDING -->
         <div class="building-box">
             <h2>Building & Interior Design</h2>
             <div class="slideshow-container build-container">
                 <img class="slidesB mySlides build-slides active" src="b1.jpg">
-                <img class="slidesB mySlides build-slides" src="b2.jpg"><img class="slidesB mySlides build-slides" src="b3.jpg">
-                <img class="slidesB mySlides build-slides" src="b4.jpg"><img class="slidesB mySlides build-slides" src="b5.jpg">
-                <img class="slidesB mySlides build-slides" src="b6.jpg"><img class="slidesB mySlides build-slides" src="b7.jpg">
-                <img class="slidesB mySlides build-slides" src="b8.jpg"><img class="slidesB mySlides build-slides" src="b9.jpg">
+                <img class="slidesB mySlides build-slides" src="b2.jpg">
+                <img class="slidesB mySlides build-slides" src="b3.jpg">
+                <img class="slidesB mySlides build-slides" src="b4.jpg">
+                <img class="slidesB mySlides build-slides" src="b5.jpg">
+                <img class="slidesB mySlides build-slides" src="b6.jpg">
+                <img class="slidesB mySlides build-slides" src="b7.jpg">
+                <img class="slidesB mySlides build-slides" src="b8.jpg">
+                <img class="slidesB mySlides build-slides" src="b9.jpg">
                 <img class="slidesB mySlides build-slides" src="b10.jpg">
                 <div class="prev" onclick="plusSlides(3, -1)">&#10094;</div>
                 <div class="next" onclick="plusSlides(3, 1)">&#10095;</div>
@@ -192,21 +220,21 @@
         </div>
     </div>
 
-    <!-- MODAL -->
+    <!-- Booking Modal -->
     <div id="choiceModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
             <h3 id="modalTitle" style="color:var(--primary)">Booking Request</h3>
-            <a href="#" id="linkWA" class="choice-btn choice-wa" target="_blank">WhatsApp</a>
-            <a href="#" id="linkViber" class="choice-btn choice-viber" target="_blank">Viber</a>
+            <a href="#" id="linkWA" class="choice-btn choice-wa" target="_blank">Contact via WhatsApp</a>
+            <a href="#" id="linkViber" class="choice-btn choice-viber" target="_blank">Contact via Viber</a>
             <a href="javascript:void(0)" class="choice-btn choice-chat" onclick="closeModal(); Tawk_API.toggle()">Live Chat</a>
         </div>
     </div>
 
-    <footer>&copy; 2026 Laskos Studios | Constantinos Zois Tsakiroglou</footer>
+    <footer>&copy; 2026 Laskos Studios | Kwnstantinos Zois Tsakiroglou</footer>
 
     <script>
-        let slideIndices = [0, 0, 0, 0];
+        let slideIndices =;
         let slideClasses = ["slides1", "slides2", "slides3", "slidesB"];
 
         function plusSlides(galleryIdx, step) {
@@ -240,7 +268,7 @@
 
         function openBooking(id) {
             const res = calculateTotal(id);
-            if (!res) { alert("Please select dates!"); return; }
+            if (!res) { alert("Please select your dates!"); return; }
             const phone = "306984725380";
             const text = `BOOKING: Apartment ${id}%0ACheck-in: ${res.inStr}%0ACheck-out: ${res.outStr}%0ANights: ${res.nights}%0ATotal: ${res.total}€`;
             document.getElementById('linkWA').href = `https://wa.me{phone}?text=${text}`;
@@ -251,7 +279,9 @@
         function closeModal() { document.getElementById('choiceModal').style.display = "none"; }
         
         window.onload = function() {
-            document.querySelectorAll('input[type="date"]').forEach(el => { el.value = "2026-05-01"; el.min = "2026-01-01"; el.max = "2026-12-31"; });
+            document.querySelectorAll('input[type="date"]').forEach(el => { 
+                el.value = "2026-05-01"; el.min = "2026-01-01"; el.max = "2026-12-31"; 
+            });
         };
     </script>
     <script type="text/javascript">
