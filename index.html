@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laskos Studios - Official Booking</title>
+    <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         :root { --primary: #00d2ff; --deep-blue: rgba(0, 20, 50, 0.96); --accent: #0077be; --secondary: #27ae60; }
         
@@ -25,13 +26,12 @@
         .host-info p { margin: 2px 0; font-size: 11px; color: #ddd; word-break: break-all; }
 
         .header { text-align: center; padding: 100px 20px 40px; text-shadow: 2px 4px 15px rgba(0,0,0,0.5); }
-        .header h1 { font-size: 4.5rem; margin: 0; font-weight: 900; }
-        .header p { font-size: 1.2rem; opacity: 0.9; margin-top: 10px; }
+        .header h1 { font-size: 4rem; margin: 0; font-weight: 900; }
 
         .container { max-width: 1300px; margin: auto; padding: 20px; }
 
         /* Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
         .card { background: var(--deep-blue); border-radius: 35px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; }
         
         /* Slideshow */
@@ -46,37 +46,38 @@
         }
         .next { right: 15px; } .prev { left: 15px; }
 
-        .card-body { padding: 30px; text-align: center; }
-        .card-body h3 { color: var(--primary); margin: 0 0 15px 0; font-size: 1.8rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        .card-body { padding: 25px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .card-body h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.8rem; }
 
-        .booking-box { background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 25px; margin-top: 10px; }
-        label { font-size: 12px; font-weight: bold; display: block; margin-top: 15px; text-align: left; color: var(--primary); text-transform: uppercase; }
-        
+        /* Amenities & Bedding */
+        .amenities { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .amenity-tag { background: rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 10px; font-size: 12px; display: flex; align-items: center; gap: 5px; }
+        .beds-info { font-size: 13px; color: #00d2ff; margin-bottom: 20px; font-weight: bold; }
+
+        /* Booking Area Centered */
+        .booking-box { background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 25px; width: 100%; box-sizing: border-box; }
+        label { font-size: 11px; font-weight: bold; display: block; margin-top: 10px; text-align: center; color: var(--primary); text-transform: uppercase; }
         input[type="date"] { 
-            width: 100%; padding: 12px; margin-top: 8px; border-radius: 12px; 
-            border: 1px solid var(--primary); font-size: 15px; background: white; 
-            color: #000; font-weight: bold; text-align: center; box-sizing: border-box;
+            width: 100%; padding: 12px; margin: 8px 0; border-radius: 12px; border: 1px solid var(--primary); 
+            font-size: 15px; background: white; color: #000; font-weight: bold; text-align: center; box-sizing: border-box;
         }
         
-        .total-price-box { background: var(--secondary); color: white; padding: 15px; border-radius: 18px; margin-top: 20px; display: none; font-weight: 800; font-size: 1.1rem; }
+        .total-price-box { background: var(--secondary); color: white; padding: 12px; border-radius: 15px; margin-top: 15px; display: none; font-weight: bold; width: 100%; box-sizing: border-box; }
+        .btn-book-now { width: 100%; background: var(--accent); color: white; padding: 18px; border: none; border-radius: 18px; font-weight: 900; font-size: 1.2rem; cursor: pointer; margin-top: 15px; }
 
-        .btn-book-now { width: 100%; background: var(--accent); color: white; padding: 18px; border: none; border-radius: 18px; font-weight: 900; font-size: 1.3rem; cursor: pointer; margin-top: 20px; }
+        /* Maps & Building */
+        .info-section { max-width: 1100px; margin: 60px auto; background: var(--deep-blue); padding: 40px; border-radius: 40px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .map-container { width: 100%; height: 400px; border-radius: 25px; overflow: hidden; margin-top: 20px; border: 2px solid var(--primary); }
 
-        /* Building */
-        .building-box { max-width: 1100px; margin: 80px auto; background: var(--deep-blue); padding: 50px; border-radius: 40px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        .build-container { height: 600px !important; }
-        .build-img { object-fit: contain !important; }
-
-        /* Choice Pop-up */
-        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px); }
-        .modal-content { background: #001a33; max-width: 400px; margin: 100px auto; padding: 45px; border-radius: 40px; text-align: center; position: relative; border: 1px solid var(--primary); }
-        .choice-btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; padding: 20px; margin-bottom: 18px; border-radius: 20px; text-decoration: none; color: white; font-weight: 900; font-size: 1.1rem; cursor: pointer; border: none; }
+        /* Modal */
+        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); }
+        .modal-content { background: #001a33; max-width: 400px; margin: 100px auto; padding: 40px; border-radius: 40px; text-align: center; position: relative; border: 1px solid var(--primary); }
+        .choice-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 20px; margin-bottom: 18px; border-radius: 20px; text-decoration: none; color: white; font-weight: 900; font-size: 1.1rem; cursor: pointer; border: none; }
         .choice-wa { background: #25D366; } .choice-viber { background: #7360f2; } .choice-chat { background: var(--accent); }
         .close-modal { position: absolute; top: 20px; right: 25px; font-size: 35px; cursor: pointer; color: #fff; }
 
-        footer { text-align: center; padding: 80px 20px; color: rgba(255,255,255,0.5); font-weight: bold; }
-
-        @media (max-width: 768px) { .host-info { position: static; width: 90%; margin: 20px auto; } .header h1 { font-size: 3rem; } }
+        footer { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.5); }
+        @media (max-width: 768px) { .host-info { position: static; width: 90%; margin: 20px auto; } .header h1 { font-size: 2.5rem; } }
     </style>
 </head>
 <body>
@@ -86,7 +87,6 @@
         <h4>Host: Kwstas</h4>
         <p><strong>Mobile:</strong> 6984725380</p>
         <p><strong>Email:</strong> tsakirogloukostas928@gmail.com</p>
-        <p>Laskos Studios Official</p>
     </div>
 
     <div class="header">
@@ -110,10 +110,16 @@
                 </div>
                 <div class="card-body">
                     <h3>Apartment 1</h3>
+                    <div class="amenities">
+                        <span class="amenity-tag"><i class="fas fa-wifi"></i> Free WiFi</span>
+                        <span class="amenity-tag"><i class="fas fa-snowflake"></i> Air Conditioning</span>
+                        <span class="amenity-tag"><i class="fas fa-utensils"></i> Kitchenette</span>
+                    </div>
+                    <div class="beds-info"><i class="fas fa-bed"></i> 1 Double Bed & 1 Bunk Bed</div>
                     <div class="booking-box">
-                        <label>Arrival (Day/Month/Year):</label>
+                        <label>Arrival:</label>
                         <input type="date" class="in-date" onchange="updateTotal(1)">
-                        <label>Departure (Day/Month/Year):</label>
+                        <label>Departure:</label>
                         <input type="date" class="out-date" onchange="updateTotal(1)">
                         <div id="price1" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(1)">BOOK NOW</button>
@@ -135,10 +141,16 @@
                 </div>
                 <div class="card-body">
                     <h3>Apartment 2</h3>
+                    <div class="amenities">
+                        <span class="amenity-tag"><i class="fas fa-wifi"></i> Free WiFi</span>
+                        <span class="amenity-tag"><i class="fas fa-snowflake"></i> Air Conditioning</span>
+                        <span class="amenity-tag"><i class="fas fa-utensils"></i> Kitchenette</span>
+                    </div>
+                    <div class="beds-info"><i class="fas fa-bed"></i> 1 Double Bed & 1 Bunk Bed</div>
                     <div class="booking-box">
-                        <label>Arrival (Day/Month/Year):</label>
+                        <label>Arrival:</label>
                         <input type="date" class="in-date" onchange="updateTotal(2)">
-                        <label>Departure (Day/Month/Year):</label>
+                        <label>Departure:</label>
                         <input type="date" class="out-date" onchange="updateTotal(2)">
                         <div id="price2" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(2)">BOOK NOW</button>
@@ -162,10 +174,16 @@
                 </div>
                 <div class="card-body">
                     <h3>Apartment 3</h3>
+                    <div class="amenities">
+                        <span class="amenity-tag"><i class="fas fa-wifi"></i> Free WiFi</span>
+                        <span class="amenity-tag"><i class="fas fa-snowflake"></i> Air Conditioning</span>
+                        <span class="amenity-tag"><i class="fas fa-utensils"></i> Kitchenette</span>
+                    </div>
+                    <div class="beds-info"><i class="fas fa-bed"></i> 1 Double Bed & 1 Bunk Bed</div>
                     <div class="booking-box">
-                        <label>Arrival (Day/Month/Year):</label>
+                        <label>Arrival:</label>
                         <input type="date" class="in-date" onchange="updateTotal(3)">
-                        <label>Departure (Day/Month/Year):</label>
+                        <label>Departure:</label>
                         <input type="date" class="out-date" onchange="updateTotal(3)">
                         <div id="price3" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(3)">BOOK NOW</button>
@@ -174,25 +192,34 @@
             </div>
         </div>
 
-        <div class="building-box">
+        <div class="info-section">
             <h2>Building & Interior Design</h2>
-            <div class="slideshow-container build-container">
-                <img class="slidesB mySlides build-img" src="b1.jpg" style="display:block">
-                <img class="slidesB mySlides build-img" src="b2.jpg"><img class="slidesB mySlides build-img" src="b3.jpg">
-                <img class="slidesB mySlides build-img" src="b4.jpg"><img class="slidesB mySlides build-img" src="b5.jpg">
-                <img class="slidesB mySlides build-img" src="b6.jpg"><img class="slidesB mySlides build-img" src="b7.jpg">
-                <img class="slidesB mySlides build-img" src="b8.jpg"><img class="slidesB mySlides build-img" src="b9.jpg">
-                <img class="slidesB mySlides build-img" src="b10.jpg">
+            <div class="slideshow-container" style="height: 500px; background: #000; border-radius: 25px;">
+                <img class="slidesB mySlides" src="b1.jpg" style="display:block; object-fit: contain;">
+                <img class="slidesB mySlides" src="b2.jpg" style="object-fit: contain;"><img class="slidesB mySlides" src="b3.jpg" style="object-fit: contain;">
+                <img class="slidesB mySlides" src="b4.jpg" style="object-fit: contain;"><img class="slidesB mySlides" src="b5.jpg" style="object-fit: contain;">
+                <img class="slidesB mySlides" src="b6.jpg" style="object-fit: contain;"><img class="slidesB mySlides" src="b7.jpg" style="object-fit: contain;">
+                <img class="slidesB mySlides" src="b8.jpg" style="object-fit: contain;"><img class="slidesB mySlides" src="b9.jpg" style="object-fit: contain;">
+                <img class="slidesB mySlides" src="b10.jpg" style="object-fit: contain;">
                 <div class="prev" onclick="moveSlide('slidesB', -1)">&#10094;</div>
                 <div class="next" onclick="moveSlide('slidesB', 1)">&#10095;</div>
             </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Our Location</h2>
+            <p>We are located in the heart of Nea Kallikrateia.</p>
+            <div class="map-container">
+                <iframe src="https://google.com" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <a href="https://goo.gl" target="_blank" class="choice-btn" style="background:var(--accent); margin-top:20px; text-decoration:none;">Open in Google Maps</a>
         </div>
     </div>
 
     <!-- Choice Pop-up -->
     <div id="choiceModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <span class="close-modal" onclick="document.getElementById('choiceModal').style.display='none'">&times;</span>
             <h3 id="modalTitle" style="color:var(--primary)">Reservation Method</h3>
             <a href="#" id="linkWA" class="choice-btn choice-wa" target="_blank">Contact via WhatsApp</a>
             <a href="#" id="linkViber" class="choice-btn choice-viber" target="_blank">Contact via Viber</a>
@@ -203,7 +230,6 @@
     <footer>&copy; 2026 Laskos Studios | Kwnstantinos Zois Tsakiroglou</footer>
 
     <script>
-        // Slideshow - Solid Logic
         function moveSlide(cls, step) {
             let s = document.getElementsByClassName(cls);
             let active = 0;
@@ -215,7 +241,6 @@
             s[next].style.display = "block";
         }
 
-        // Pricing Logic
         const rates = { 0:50, 1:50, 2:50, 3:70, 4:80, 5:110, 6:150, 7:150, 8:100, 9:80, 10:50, 11:50 };
 
         function calculate(num) {
@@ -244,16 +269,14 @@
             const msg = `BOOKING: Apartment ${n}%0ACheck-in: ${r.inS}%0ACheck-out: ${r.outS}%0ATotal: ${r.total}€`;
             document.getElementById('linkWA').href = `https://whatsapp.com{msg}`;
             document.getElementById('linkViber').href = `viber://chat?number=306984725380&draft=${msg}`;
-            document.getElementById('modalTitle').innerText = `Apartment ${n}: ${r.total}€`;
+            document.getElementById('modalTitle').innerText = `Apartment ${n}: ${res.total}€`;
             document.getElementById('choiceModal').style.display = "block";
         }
 
-        function closeModal() { document.getElementById('choiceModal').style.display = "none"; }
-        
         function openTawk() {
-            closeModal();
+            document.getElementById('choiceModal').style.display = "none";
             if (typeof Tawk_API !== 'undefined') { Tawk_API.maximize(); }
-            else { alert("Chat is loading, please wait a moment..."); }
+            else { alert("Chat is loading, please wait..."); }
         }
 
         window.onload = function() {
