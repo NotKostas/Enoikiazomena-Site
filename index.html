@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laskos Studios - Παραθαλάσσια Διαμονή</title>
+    <title>Laskos Studios - Luxury Seaside Stay</title>
     <style>
-        /* Background & General */
+        /* Background & Overall Style */
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
             margin: 0; 
@@ -14,7 +14,7 @@
             color: #333;
         }
 
-        /* Host Info Box - Optimized for Quality */
+        /* Host Info (Top Left) */
         .host-info {
             position: fixed; top: 20px; left: 20px;
             background: rgba(255, 255, 255, 0.98);
@@ -23,21 +23,19 @@
             max-width: 220px; text-align: center;
         }
         .host-photo {
-            width: 120px; height: 120px; border-radius: 50%; 
-            object-fit: cover;
-            image-rendering: -webkit-optimize-contrast; /* Βελτίωση καθαρότητας */
+            width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
             margin-bottom: 12px; border: 4px solid #1a73e8;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            image-rendering: -webkit-optimize-contrast;
         }
         .host-info h4 { margin: 5px 0; color: #1a73e8; font-size: 18px; }
-        .host-info p { margin: 4px 0; font-size: 13px; color: #444; font-weight: 500; }
+        .host-info p { margin: 4px 0; font-size: 13px; color: #444; }
 
         .header { text-align: center; color: white; padding: 100px 20px; text-shadow: 4px 4px 12px rgba(0,0,0,0.9); }
-        .header h1 { font-size: 5rem; margin: 0; font-weight: 800; letter-spacing: -1px; }
+        .header h1 { font-size: 5rem; margin: 0; font-weight: 800; }
 
         .container { max-width: 1300px; margin: auto; padding: 20px; }
 
-        /* Grid Layout */
+        /* Grid System */
         .apartments-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
@@ -49,37 +47,33 @@
             border-radius: 25px; overflow: hidden; 
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             display: flex; flex-direction: column;
-            transition: 0.4s;
+            backdrop-filter: blur(5px);
         }
-        .card:hover { transform: translateY(-10px); }
 
         .slideshow-container { position: relative; width: 100%; height: 280px; cursor: pointer; background: #000; }
-        .mySlides { display: none; width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: 0.5s; }
-        .mySlides:hover { opacity: 1; }
+        .mySlides { display: none; width: 100%; height: 100%; object-fit: cover; }
         
         .prev, .next {
-            cursor: pointer; position: absolute; top: 50%; width: auto; padding: 15px; margin-top: -25px;
-            color: white; font-weight: bold; font-size: 22px; background: rgba(0,0,0,0.6); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; width: 20px; height: 20px;
+            cursor: pointer; position: absolute; top: 50%; width: 40px; height: 40px;
+            color: white; font-weight: bold; font-size: 22px; background: rgba(0,0,0,0.6); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin-top: -20px;
         }
-        .next { right: 10px; }
-        .prev { left: 10px; }
+        .next { right: 10px; } .prev { left: 10px; }
 
         .card-body { padding: 25px; flex-grow: 1; text-align: center; }
         .card-body h3 { margin: 0 0 15px 0; color: #1a73e8; font-size: 1.8rem; border-bottom: 3px solid #27ae60; display: inline-block; }
 
-        /* Buttons Style */
+        /* Contact Buttons */
         .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-        .btn { 
-            padding: 14px; text-align: center; text-decoration: none; border-radius: 12px; 
-            font-weight: bold; font-size: 14px; color: white; transition: 0.3s;
-        }
+        .btn { padding: 14px; text-align: center; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 14px; color: white; transition: 0.3s; }
         .btn-wa { background: #25D366; }
         .btn-viber { background: #7360f2; }
         .btn-chat { background: #1a73e8; grid-column: span 2; }
-        .btn:hover { filter: brightness(1.2); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .btn:hover { filter: brightness(1.2); transform: scale(1.05); }
 
-        iframe { width: 100%; height: 350px; border: none; border-radius: 15px; margin-top: 20px; }
+        /* Multi-Calendar iframe */
+        iframe { width: 100%; height: 350px; border: none; border-radius: 15px; margin-top: 20px; background: white; }
 
         .building-box { 
             max-width: 500px; margin: 40px 0 40px auto; 
@@ -87,12 +81,12 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.3); border-right: 6px solid #1a73e8;
         }
 
-        /* Modal / Lightbox */
+        /* Lightbox Modal */
         .modal {
             display: none; position: fixed; z-index: 9999; padding-top: 30px;
             left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95);
         }
-        .modal-content { margin: auto; display: block; max-width: 95%; max-height: 85%; border-radius: 15px; box-shadow: 0 0 25px white; }
+        .modal-content { margin: auto; display: block; max-width: 95%; max-height: 85%; border-radius: 15px; }
         .close { position: absolute; top: 20px; right: 40px; color: white; font-size: 60px; cursor: pointer; }
 
         @media (max-width: 768px) {
@@ -103,36 +97,28 @@
 </head>
 <body>
 
-    <!-- Host Info Box -->
+    <!-- Host Details -->
     <div class="host-info">
         <img src="me.jpg" alt="Host Kwstas" class="host-photo" onerror="this.src='https://placeholder.com'">
         <h4>Host: Kwstas</h4>
-        <p><strong>Τηλ:</strong> 6984725380</p>
+        <p><strong>Mobile:</strong> 6984725380</p>
         <p><strong>Email:</strong><br>tsakirogloukostas928@gmail.com</p>
     </div>
 
     <div class="header">
         <h1>Laskos Studios</h1>
-        <p>Experience the ultimate beach getaway</p>
+        <p>Luxury seaside living with a modern touch</p>
     </div>
 
     <div class="container">
         <div class="apartments-grid">
             
-            <!-- APARTMENT 1 -->
+            <!-- APARTMENT 1 (Sync AirBNB 1 + Booking 1) -->
             <div class="card">
                 <div class="slideshow-container">
                     <img class="room1-slides mySlides" src="r1-1.jpg" onclick="openModal(this.src)">
                     <img class="room1-slides mySlides" src="r1-2.jpg" onclick="openModal(this.src)">
                     <img class="room1-slides mySlides" src="r1-3.jpg" onclick="openModal(this.src)">
-                    <img class="room1-slides mySlides" src="r1-4.jpg" onclick="openModal(this.src)">
-                    <img class="room1-slides mySlides" src="r1-5.jpg" onclick="openModal(this.src)">
-                    <img class="room1-slides mySlides" src="r1-6.jpg" onclick="openModal(this.src)">
-                    <img class="room1-slides mySlides" src="r1-7.jpg" onclick="openModal(this.src)">
-                    <img class="room1-slides mySlides" src="r1-8.jpg" onclick="openModal(this.src)">
-                    <img class="room1-slides mySlides" src="r1-9.jpg" onclick="openModal(this.src)">
-                    <img class="room1-slides mySlides" src="r1-10.jpg" onclick="openModal(this.src)">
-                    <img class="room1-slides mySlides" src="r1-11.jpg" onclick="openModal(this.src)">
                     <a class="prev" onclick="changeSlide(-1, 0)">&#10094;</a>
                     <a class="next" onclick="changeSlide(1, 0)">&#10095;</a>
                 </div>
@@ -140,26 +126,18 @@
                     <h3>Apartment 1</h3>
                     <iframe src="https://google.com"></iframe>
                     <div class="btn-group">
-                        <a href="https://wa.me" class="btn btn-wa">WhatsApp</a>
+                        <a href="https://wa.me in Apartment 1" class="btn btn-wa">WhatsApp</a>
                         <a href="viber://chat?number=306984725380" class="btn btn-viber">Viber</a>
                         <a href="javascript:void(0)" onclick="Tawk_API.toggle()" class="btn btn-chat">Live Chat</a>
                     </div>
                 </div>
             </div>
 
-            <!-- APARTMENT 2 -->
+            <!-- APARTMENT 2 (Sync AirBNB 2 + Booking 2) -->
             <div class="card">
                 <div class="slideshow-container">
                     <img class="room2-slides mySlides" src="r2-1.jpg" onclick="openModal(this.src)">
                     <img class="room2-slides mySlides" src="r2-2.jpg" onclick="openModal(this.src)">
-                    <img class="room2-slides mySlides" src="r2-3.jpg" onclick="openModal(this.src)">
-                    <img class="room2-slides mySlides" src="r2-4.jpg" onclick="openModal(this.src)">
-                    <img class="room2-slides mySlides" src="r2-5.jpg" onclick="openModal(this.src)">
-                    <img class="room2-slides mySlides" src="r2-6.jpg" onclick="openModal(this.src)">
-                    <img class="room2-slides mySlides" src="r2-7.jpg" onclick="openModal(this.src)">
-                    <img class="room2-slides mySlides" src="r2-8.jpg" onclick="openModal(this.src)">
-                    <img class="room2-slides mySlides" src="r2-9.jpg" onclick="openModal(this.src)">
-                    <img class="room2-slides mySlides" src="r2-10.jpg" onclick="openModal(this.src)">
                     <a class="prev" onclick="changeSlide(-1, 1)">&#10094;</a>
                     <a class="next" onclick="changeSlide(1, 1)">&#10095;</a>
                 </div>
@@ -167,30 +145,18 @@
                     <h3>Apartment 2</h3>
                     <iframe src="https://google.com"></iframe>
                     <div class="btn-group">
-                        <a href="https://wa.me" class="btn btn-wa">WhatsApp</a>
+                        <a href="https://wa.me in Apartment 2" class="btn btn-wa">WhatsApp</a>
                         <a href="viber://chat?number=306984725380" class="btn btn-viber">Viber</a>
                         <a href="javascript:void(0)" onclick="Tawk_API.toggle()" class="btn btn-chat">Live Chat</a>
                     </div>
                 </div>
             </div>
 
-            <!-- APARTMENT 3 -->
+            <!-- APARTMENT 3 (Sync AirBNB 3 + Booking 3) -->
             <div class="card">
                 <div class="slideshow-container">
                     <img class="room3-slides mySlides" src="r3-1.jpg" onclick="openModal(this.src)">
                     <img class="room3-slides mySlides" src="r3-2.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-3.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-4.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-5.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-6.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-7.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-8.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-9.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-10.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-11.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-12.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-13.jpg" onclick="openModal(this.src)">
-                    <img class="room3-slides mySlides" src="r3-14.jpg" onclick="openModal(this.src)">
                     <a class="prev" onclick="changeSlide(-1, 2)">&#10094;</a>
                     <a class="next" onclick="changeSlide(1, 2)">&#10095;</a>
                 </div>
@@ -198,7 +164,7 @@
                     <h3>Apartment 3</h3>
                     <iframe src="https://google.com"></iframe>
                     <div class="btn-group">
-                        <a href="https://wa.me" class="btn btn-wa">WhatsApp</a>
+                        <a href="https://wa.me in Apartment 3" class="btn btn-wa">WhatsApp</a>
                         <a href="viber://chat?number=306984725380" class="btn btn-viber">Viber</a>
                         <a href="javascript:void(0)" onclick="Tawk_API.toggle()" class="btn btn-chat">Live Chat</a>
                     </div>
@@ -212,21 +178,13 @@
             <div class="slideshow-container">
                 <img class="build-slides mySlides" src="b1.jpg" onclick="openModal(this.src)">
                 <img class="build-slides mySlides" src="b2.jpg" onclick="openModal(this.src)">
-                <img class="build-slides mySlides" src="b3.jpg" onclick="openModal(this.src)">
-                <img class="build-slides mySlides" src="b4.jpg" onclick="openModal(this.src)">
-                <img class="build-slides mySlides" src="b5.jpg" onclick="openModal(this.src)">
-                <img class="build-slides mySlides" src="b6.jpg" onclick="openModal(this.src)">
-                <img class="build-slides mySlides" src="b7.jpg" onclick="openModal(this.src)">
-                <img class="build-slides mySlides" src="b8.jpg" onclick="openModal(this.src)">
-                <img class="build-slides mySlides" src="b9.jpg" onclick="openModal(this.src)">
-                <img class="build-slides mySlides" src="b10.jpg" onclick="openModal(this.src)">
                 <a class="prev" onclick="changeSlide(-1, 3)">&#10094;</a>
                 <a class="next" onclick="changeSlide(1, 3)">&#10095;</a>
             </div>
         </div>
     </div>
 
-    <!-- Lightbox -->
+    <!-- Modal for Large Images -->
     <div id="myModal" class="modal" onclick="this.style.display='none'">
         <span class="close">&times;</span>
         <img class="modal-content" id="img01">
@@ -241,9 +199,7 @@
             let i; let x = document.getElementsByClassName(slideClasses[no]);
             if (n > x.length) {slideIndices[no] = 1} if (n < 1) {slideIndices[no] = x.length}
             for (i = 0; i < x.length; i++) { x[i].style.display = "none"; }
-            if(x[slideIndices[no]-1]) {
-                x[slideIndices[no]-1].style.display = "block";
-            }
+            if(x[slideIndices[no]-1]) x[slideIndices[no]-1].style.display = "block";
         }
         for(let i=0; i<4; i++) { showSlides(1, i); }
 
@@ -253,7 +209,7 @@
         }
     </script>
 
-    <!-- Tawk.to Script -->
+    <!-- Tawk.to Live Chat -->
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
