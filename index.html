@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laskos Studios - Official Booking</title>
-    
-    <!-- External Libraries -->
-    <link rel="stylesheet" href="https://jsdelivr.net">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com">
-    
     <style>
         :root { 
             --primary: #00d2ff; 
@@ -24,7 +19,7 @@
             background-attachment: fixed; color: var(--text); min-height: 100vh;
         }
 
-        /* Host Info Box */
+        /* Host Box */
         .host-info {
             position: fixed; top: 20px; left: 20px; background: var(--deep-blue);
             padding: 20px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -42,14 +37,13 @@
 
         /* Grid */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; }
-        
         .card { 
             background: var(--deep-blue); border-radius: 35px; overflow: hidden; 
             box-shadow: 0 20px 50px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); 
             backdrop-filter: blur(10px); display: flex; flex-direction: column;
         }
         
-        /* Fixed Slideshow & Arrows */
+        /* Slideshow */
         .slideshow-container { position: relative; height: 300px; background: #000; overflow: hidden; }
         .mySlides { display: none; width: 100%; height: 100%; object-fit: cover; }
         .active-slide { display: block; }
@@ -59,15 +53,10 @@
             background: rgba(0,0,0,0.7); color: white; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
             margin-top: -22.5px; font-weight: bold; font-size: 20px;
-            z-index: 100; border: 1px solid rgba(255,255,255,0.2); transition: 0.3s;
-            user-select: none;
+            z-index: 100; transition: 0.3s; user-select: none;
         }
         .next { right: 15px; } .prev { left: 15px; }
-        .prev:hover, .next:hover { background: var(--primary); transform: scale(1.1); }
-
-        /* Building View - Full Photo */
-        .build-container { height: 600px !important; background: #050505 !important; }
-        .build-slides { object-fit: contain !important; }
+        .prev:hover, .next:hover { background: var(--primary); }
 
         .card-body { padding: 35px; text-align: center; }
         .card-body h3 { color: var(--primary); margin-top: 0; font-size: 1.8rem; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
@@ -75,7 +64,8 @@
         .booking-box { background: rgba(255, 255, 255, 0.05); padding: 25px; border-radius: 25px; margin-top: 20px; }
         label { font-size: 13px; font-weight: bold; display: block; margin-top: 15px; text-align: left; color: var(--primary); text-transform: uppercase; }
         
-        .date-input { 
+        /* ΕΔΩ ΕΙΝΑΙ ΤΟ ΚΛΑΣΙΚΟ CALENDAR ΠΟΥ ΖΗΤΗΣΕΣ */
+        input[type="date"] { 
             width: 100%; padding: 14px; margin-top: 8px; border-radius: 15px; border: 1px solid var(--primary); 
             box-sizing: border-box; font-size: 16px; background: white !important; color: #000 !important; 
             font-weight: bold; text-align: center; cursor: pointer;
@@ -95,8 +85,9 @@
             border-radius: 40px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
             border: 1px solid rgba(255,255,255,0.1);
         }
+        .build-container { height: 600px !important; background: #050505 !important; }
+        .build-slides { object-fit: contain !important; }
 
-        /* Modal Popup */
         .modal { display: none; position: fixed; z-index: 9000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 10, 30, 0.95); backdrop-filter: blur(15px); }
         .modal-content { background: var(--deep-blue); max-width: 420px; margin: 100px auto; padding: 45px; border-radius: 40px; text-align: center; position: relative; border: 1px solid var(--primary); }
         .choice-btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; padding: 20px; margin-bottom: 18px; border-radius: 20px; text-decoration: none; color: white; font-weight: 900; transition: 0.3s; font-size: 1.1rem; }
@@ -123,7 +114,7 @@
 
     <div class="header">
         <h1>Laskos Studios</h1>
-        <p>Direct Booking | Day/Month/Year Format</p>
+        <p>Exclusive Seaside Apartments</p>
     </div>
 
     <div class="container">
@@ -140,10 +131,10 @@
                 <div class="card-body">
                     <h3>Apartment 1</h3>
                     <div class="booking-box">
-                        <label>Arrival Date:</label>
-                        <input type="text" class="date-input in-date" placeholder="DD/MM/2026">
-                        <label>Departure Date:</label>
-                        <input type="text" class="date-input out-date" placeholder="DD/MM/2026">
+                        <label>Arrival:</label>
+                        <input type="date" class="in-date" onchange="updatePrice(1)">
+                        <label>Departure:</label>
+                        <input type="date" class="out-date" onchange="updatePrice(1)">
                         <div id="total-box1" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(1)">BOOK NOW</button>
                     </div>
@@ -161,10 +152,10 @@
                 <div class="card-body">
                     <h3>Apartment 2</h3>
                     <div class="booking-box">
-                        <label>Arrival Date:</label>
-                        <input type="text" class="date-input in-date" placeholder="DD/MM/2026">
-                        <label>Departure Date:</label>
-                        <input type="text" class="date-input out-date" placeholder="DD/MM/2026">
+                        <label>Arrival:</label>
+                        <input type="date" class="in-date" onchange="updatePrice(2)">
+                        <label>Departure:</label>
+                        <input type="date" class="out-date" onchange="updatePrice(2)">
                         <div id="total-box2" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(2)">BOOK NOW</button>
                     </div>
@@ -182,10 +173,10 @@
                 <div class="card-body">
                     <h3>Apartment 3</h3>
                     <div class="booking-box">
-                        <label>Arrival Date:</label>
-                        <input type="text" class="date-input in-date" placeholder="DD/MM/2026">
-                        <label>Departure Date:</label>
-                        <input type="text" class="date-input out-date" placeholder="DD/MM/2026">
+                        <label>Arrival:</label>
+                        <input type="date" class="in-date" onchange="updatePrice(3)">
+                        <label>Departure:</label>
+                        <input type="date" class="out-date" onchange="updatePrice(3)">
                         <div id="total-box3" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(3)">BOOK NOW</button>
                     </div>
@@ -198,7 +189,6 @@
             <div class="slideshow-container build-container">
                 <img class="slidesB mySlides build-slides active-slide" src="b1.jpg">
                 <img class="slidesB mySlides build-slides" src="b2.jpg">
-                <img class="slidesB mySlides build-slides" src="b3.jpg">
                 <div class="prev" onclick="moveSlide(-1, 3)">&#10094;</div>
                 <div class="next" onclick="moveSlide(1, 3)">&#10095;</div>
             </div>
@@ -215,52 +205,30 @@
         </div>
     </div>
 
-    <script src="https://jsdelivr.net"></script>
     <script>
-        // SLIDESHOW LOGIC FIX
-        let indices = [0, 0, 0, 0];
+        // Slideshow Fix
+        let indices =;
         let classes = ["slides1", "slides2", "slides3", "slidesB"];
-
         function moveSlide(step, galleryIdx) {
             let slides = document.getElementsByClassName(classes[galleryIdx]);
             slides[indices[galleryIdx]].classList.remove("active-slide");
-            
             indices[galleryIdx] += step;
             if (indices[galleryIdx] >= slides.length) indices[galleryIdx] = 0;
             if (indices[galleryIdx] < 0) indices[galleryIdx] = slides.length - 1;
-            
             slides[indices[galleryIdx]].classList.add("active-slide");
         }
 
-        // PRICE & DATE LOGIC
+        // Price Engine
         const monthPrices = { 0:50, 1:50, 2:50, 3:70, 4:80, 5:110, 6:150, 7:150, 8:100, 9:80, 10:50, 11:50 };
-
-        document.addEventListener('DOMContentLoaded', function() {
-            flatpickr(".date-input", {
-                dateFormat: "d/m/Y",
-                minDate: "01/01/2026",
-                maxDate: "31/12/2026",
-                defaultDate: "01/05/2026",
-                onChange: function(selectedDates, dateStr, instance) {
-                    const id = instance.element.closest('.card').id.replace('apt', '');
-                    updatePrice(id);
-                }
-            });
-        });
 
         function calculateTotal(id) {
             const card = document.getElementById('apt' + id);
-            const inStr = card.querySelector('.in-date').value;
-            const outStr = card.querySelector('.out-date').value;
-            if (!inStr || !outStr) return null;
+            const inVal = card.querySelector('.in-date').value;
+            const outVal = card.querySelector('.out-date').value;
+            if (!inVal || !outVal) return null;
 
-            const parseDate = (str) => {
-                const parts = str.split('/');
-                return new Date(parts[2], parts[1] - 1, parts[0]);
-            };
-
-            let start = parseDate(inStr);
-            let end = parseDate(outStr);
+            let start = new Date(inVal);
+            let end = new Date(outVal);
             if (end <= start) return null;
 
             let total = 0; let nights = 0; let curr = new Date(start);
@@ -269,7 +237,14 @@
                 nights++;
                 curr.setDate(curr.getDate() + 1);
             }
-            return { total, nights, inStr, outStr };
+            
+            // Format to DD/MM/YYYY for the message
+            const fmt = (d) => {
+                let dt = new Date(d);
+                return `${dt.getDate().toString().padStart(2,'0')}/${(dt.getMonth()+1).toString().padStart(2,'0')}/${dt.getFullYear()}`;
+            };
+
+            return { total, nights, inStr: fmt(inVal), outStr: fmt(outVal) };
         }
 
         function updatePrice(id) {
@@ -281,7 +256,7 @@
 
         function openBooking(id) {
             const res = calculateTotal(id);
-            if (!res) { alert("Please select valid dates!"); return; }
+            if (!res) { alert("Please select your check-in and check-out dates!"); return; }
             const phone = "306984725380";
             const text = `BOOKING REQUEST: Apartment ${id}%0ACheck-in: ${res.inStr}%0ACheck-out: ${res.outStr}%0ANights: ${res.nights}%0ATotal: ${res.total}€`;
             document.getElementById('linkWA').href = `https://wa.me{phone}?text=${text}`;
@@ -290,9 +265,18 @@
             document.getElementById('choiceModal').style.display = "block";
         }
         function closeModal() { document.getElementById('choiceModal').style.display = "none"; }
+
+        // Set default values to 2026
+        window.onload = function() {
+            document.querySelectorAll('input[type="date"]').forEach(el => {
+                el.value = "2026-05-01";
+                el.min = "2026-01-01";
+                el.max = "2026-12-31";
+            });
+        };
     </script>
 
-    <!-- Tawk.to Script -->
+    <!-- Tawk.to -->
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
