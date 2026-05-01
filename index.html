@@ -30,11 +30,12 @@
 
         .container { max-width: 1300px; margin: auto; padding: 20px; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        /* Grid Layout */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
         .card { background: var(--deep-blue); border-radius: 35px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
         
-        /* Slideshow System */
-        .slideshow-container { position: relative; height: 300px; background: #000; overflow: hidden; }
+        /* Slideshow - INCREASED HEIGHT */
+        .slideshow-container { position: relative; height: 400px; background: #000; overflow: hidden; }
         .mySlides { display: none; width: 100%; height: 100%; object-fit: cover; }
         
         .prev, .next {
@@ -48,16 +49,13 @@
         .card-body { padding: 25px; text-align: center; display: flex; flex-direction: column; align-items: center; }
         .card-body h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.8rem; }
 
-        /* Amenities Tags */
+        /* Amenities */
         .amenities { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 15px; }
         .amenity-tag { background: rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 10px; font-size: 11px; display: flex; align-items: center; gap: 5px; }
         .beds-info { font-size: 12px; color: var(--primary); margin-bottom: 15px; font-weight: bold; }
 
-        /* Fixed Centered Booking Box */
-        .booking-box { 
-            background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 25px; 
-            width: 100%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center;
-        }
+        /* Booking Area */
+        .booking-box { background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 25px; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
         label { font-size: 11px; font-weight: bold; display: block; margin-top: 10px; color: var(--primary); text-transform: uppercase; text-align: center; }
         
         input[type="date"] { 
@@ -68,32 +66,29 @@
         
         .total-price-box { background: var(--secondary); color: white; padding: 12px; border-radius: 15px; margin-top: 15px; display: none; font-weight: bold; width: 100%; max-width: 250px; }
         .btn-book-now { width: 100%; max-width: 250px; background: var(--accent); color: white; padding: 18px; border: none; border-radius: 18px; font-weight: 900; font-size: 1.2rem; cursor: pointer; margin-top: 15px; transition: 0.3s; }
-        .btn-book-now:hover { background: #005fa3; }
 
-        /* Building Section */
+        /* Building Section - EVEN LARGER */
         .info-section { max-width: 1100px; margin: 60px auto; background: var(--deep-blue); padding: 40px; border-radius: 40px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        .build-container { height: 500px !important; }
+        .build-container { height: 550px !important; }
         .build-img { object-fit: contain !important; }
 
-        /* Centered Choice Modal (Only Viber & Chat) */
+        /* Choice Modal */
         .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); }
         .modal-content { 
             background: #001a33; max-width: 400px; padding: 40px; border-radius: 40px; 
             text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             border: 1px solid var(--primary); width: 85%;
         }
-        .choice-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 20px; margin-bottom: 18px; border-radius: 20px; text-decoration: none; color: white; font-weight: 900; font-size: 1.1rem; border: none; cursor: pointer; }
-        .choice-viber { background: #7360f2; } 
-        .choice-chat { background: var(--accent); }
+        .choice-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 20px; text-decoration: none; color: white; font-weight: 900; font-size: 1.1rem; border: none; cursor: pointer; }
+        .choice-viber { background: #7360f2; } .choice-chat { background: var(--accent); }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #fff; }
 
         footer { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.5); }
-        @media (max-width: 768px) { .host-info { position: static; width: 90%; margin: 20px auto; } .header h1 { font-size: 2.5rem; } }
+        @media (max-width: 768px) { .host-info { position: static; width: 90%; margin: 20px auto; } .header h1 { font-size: 2.5rem; } .slideshow-container { height: 300px; } }
     </style>
 </head>
 <body>
 
-    <!-- Host Details -->
     <div class="host-info">
         <img src="me.jpg" class="host-photo" onerror="this.src='https://placeholder.com'">
         <h4>Host: Kwstas</h4>
@@ -184,14 +179,13 @@
         <div class="info-section">
             <h2>Building & Interior Design</h2>
             <div class="slideshow-container build-container">
-                <img class="slidesB mySlides build-img" src="b1.jpg" style="display:block; object-fit: contain;">
-                <img class="slidesB mySlides build-img" src="b2.jpg" style="object-fit: contain;"><img class="slidesB mySlides build-img" src="b3.jpg" style="object-fit: contain;"><img class="slidesB mySlides build-img" src="b4.jpg" style="object-fit: contain;"><img class="slidesB mySlides build-img" src="b5.jpg" style="object-fit: contain;"><img class="slidesB mySlides build-img" src="b6.jpg" style="object-fit: contain;"><img class="slidesB mySlides build-img" src="b7.jpg" style="object-fit: contain;"><img class="slidesB mySlides build-img" src="b8.jpg" style="object-fit: contain;"><img class="slidesB mySlides build-img" src="b9.jpg" style="object-fit: contain;"><img class="slidesB mySlides build-img" src="b10.jpg" style="object-fit: contain;">
+                <img class="slidesB mySlides build-img" src="b1.jpg" style="display:block">
+                <img class="slidesB mySlides build-img" src="b2.jpg"><img class="slidesB mySlides build-img" src="b3.jpg"><img class="slidesB mySlides build-img" src="b4.jpg"><img class="slidesB mySlides build-img" src="b5.jpg"><img class="slidesB mySlides build-img" src="b6.jpg"><img class="slidesB mySlides build-img" src="b7.jpg"><img class="slidesB mySlides build-img" src="b8.jpg"><img class="slidesB mySlides build-img" src="b9.jpg"><img class="slidesB mySlides build-img" src="b10.jpg">
                 <div class="prev" onclick="moveSlide('slidesB', -1)">&#10094;</div><div class="next" onclick="moveSlide('slidesB', 1)">&#10095;</div>
             </div>
         </div>
     </div>
 
-    <!-- Centered Choice Modal (Only Viber & Chat) -->
     <div id="choiceModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="document.getElementById('choiceModal').style.display='none'">&times;</span>
@@ -244,12 +238,9 @@
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://tawk.to';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script");
+    s1.async=true; s1.src='https://tawk.to';
+    s1.charset='UTF-8'; s1.setAttribute('crossorigin','*'); s0.parentNode.insertBefore(s1,s0);
     })();
     </script>
 </body>
