@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laskos Studios - Official Booking</title>
+    <!-- Flatpickr CSS για όμορφα και σωστά ημερολόγια -->
+    <link rel="stylesheet" href="https://jsdelivr.net">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com">
+    
     <style>
         :root { 
-            --primary: #0077be; 
-            --deep-blue: rgba(0, 30, 60, 0.85); /* Deep Sea Semi-Transparent */
-            --accent: #00d2ff;  
+            --primary: #00d2ff; 
+            --deep-blue: rgba(0, 30, 60, 0.88); 
+            --accent: #0077be;  
             --secondary: #27ae60; 
             --text: #ffffff;
         }
@@ -16,47 +20,35 @@
         body { 
             font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; 
             background: linear-gradient(135deg, #001220 0%, #002b5c 50%, #00509d 100%);
-            background-attachment: fixed;
-            color: var(--text);
-            min-height: 100vh;
+            background-attachment: fixed; color: var(--text); min-height: 100vh;
         }
 
-        /* Host Info Box - Deep Sea Style */
         .host-info {
-            position: fixed; top: 20px; left: 20px; 
-            background: var(--deep-blue);
-            padding: 20px; border-radius: 25px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 1000; width: 180px; text-align: center; 
-            border: 1px solid rgba(255,255,255,0.1);
+            position: fixed; top: 20px; left: 20px; background: var(--deep-blue);
+            padding: 20px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 1000; width: 180px; text-align: center; border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(15px);
         }
-        .host-photo { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 3px solid var(--accent); }
-        .host-info h4 { margin: 5px 0; font-size: 18px; color: var(--accent); }
+        .host-photo { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 3px solid var(--primary); }
+        .host-info h4 { margin: 5px 0; font-size: 18px; color: var(--primary); }
         .host-info p { margin: 2px 0; font-size: 12px; color: #ddd; }
 
         .header { text-align: center; color: white; padding: 100px 20px 60px; text-shadow: 2px 4px 15px rgba(0,0,0,0.5); }
-        .header h1 { font-size: 5rem; margin: 0; font-weight: 900; letter-spacing: -1px; }
+        .header h1 { font-size: 4.5rem; margin: 0; font-weight: 900; }
 
         .container { max-width: 1300px; margin: auto; padding: 20px; }
 
-        /* Grid */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 35px; }
-        
-        /* Glass Card Style */
         .card { 
             background: var(--deep-blue); border-radius: 35px; overflow: hidden; 
             box-shadow: 0 20px 50px rgba(0,0,0,0.6); transition: 0.4s ease; 
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);
         }
-        .card:hover { transform: translateY(-10px); border: 1px solid var(--accent); }
         
         .slideshow-container { position: relative; height: 300px; background: #000; }
         .mySlides { display: none; width: 100%; height: 100%; object-fit: cover; animation: fade 0.5s; }
         @keyframes fade { from {opacity: 0.4} to {opacity: 1} }
 
-        /* Full Building View */
         .build-container { height: 600px !important; background: #080808 !important; }
         .build-slides { object-fit: contain !important; }
 
@@ -64,61 +56,51 @@
             cursor: pointer; position: absolute; top: 50%; width: 40px; height: 40px; 
             background: rgba(0,0,0,0.6); color: white; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; margin-top: -20px; font-weight: bold;
-            z-index: 2; text-decoration: none; border: 1px solid rgba(255,255,255,0.2);
+            z-index: 2; text-decoration: none;
         }
         .next { right: 15px; } .prev { left: 15px; }
-        .prev:hover, .next:hover { background: var(--accent); }
 
         .card-body { padding: 35px; text-align: center; }
-        .card-body h3 { color: var(--accent); margin-top: 0; font-size: 2rem; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        .card-body h3 { color: var(--primary); margin-top: 0; font-size: 2rem; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
 
-        /* Darker Inputs for contrast */
         .booking-box { background: rgba(255, 255, 255, 0.05); padding: 25px; border-radius: 25px; margin-top: 20px; }
-        label { font-size: 12px; font-weight: bold; display: block; margin-top: 15px; text-align: left; color: #bbb; text-transform: uppercase; }
-        input[type="date"] { 
+        label { font-size: 13px; font-weight: bold; display: block; margin-top: 15px; text-align: left; color: var(--primary); text-transform: uppercase; }
+        
+        /* Custom Styling για τα νέα ημερολόγια */
+        .date-input { 
             width: 100%; padding: 14px; margin-top: 8px; border-radius: 15px; 
-            border: 1px solid rgba(255,255,255,0.2); box-sizing: border-box; font-size: 16px;
-            background: rgba(255,255,255,0.9); color: #000; font-weight: bold;
+            border: 1px solid var(--primary); box-sizing: border-box; font-size: 16px;
+            background: white !important; color: #000 !important; font-weight: bold; text-align: center;
         }
         
-        .total-price-box { background: var(--secondary); color: white; padding: 15px; border-radius: 18px; margin-top: 20px; display: none; font-weight: 800; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4); }
+        .total-price-box { background: var(--secondary); color: white; padding: 15px; border-radius: 18px; margin-top: 20px; display: none; font-weight: 800; font-size: 1.2rem; }
 
         .btn-book-now { 
-            width: 100%; background: var(--primary); color: white; padding: 20px; 
+            width: 100%; background: var(--accent); color: white; padding: 20px; 
             border: none; border-radius: 18px; font-weight: 900; font-size: 1.3rem; 
-            cursor: pointer; margin-top: 20px; transition: 0.3s; letter-spacing: 1px;
-            box-shadow: 0 8px 25px rgba(0,119,190,0.4);
+            cursor: pointer; margin-top: 20px; transition: 0.3s;
         }
-        .btn-book-now:hover { background: var(--accent); transform: scale(1.02); }
 
-        /* Building Section - Matched Style */
         .building-box { 
             max-width: 1100px; margin: 80px auto; background: var(--deep-blue); padding: 50px; 
             border-radius: 40px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .building-box h2 { color: var(--accent); margin-bottom: 25px; font-size: 2.5rem; }
 
-        /* Modal Choice */
         .modal { display: none; position: fixed; z-index: 5000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 10, 30, 0.95); backdrop-filter: blur(15px); }
-        .modal-content { background: var(--deep-blue); max-width: 420px; margin: 100px auto; padding: 45px; border-radius: 40px; text-align: center; position: relative; border: 1px solid var(--accent); }
+        .modal-content { background: var(--deep-blue); max-width: 420px; margin: 100px auto; padding: 45px; border-radius: 40px; text-align: center; position: relative; border: 1px solid var(--primary); }
         .choice-btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; padding: 20px; margin-bottom: 18px; border-radius: 20px; text-decoration: none; color: white; font-weight: 900; transition: 0.3s; font-size: 1.1rem; }
-        .choice-wa { background: #25D366; } .choice-viber { background: #7360f2; } .choice-chat { background: var(--primary); }
+        .choice-wa { background: #25D366; } .choice-viber { background: #7360f2; } .choice-chat { background: var(--accent); }
         .close-modal { position: absolute; top: 25px; right: 25px; font-size: 35px; cursor: pointer; color: #fff; }
-
-        footer { text-align: center; padding: 80px 20px; color: rgba(255,255,255,0.6); font-weight: bold; }
 
         @media (max-width: 768px) {
             .host-info { position: static; width: 90%; margin: 20px auto; }
             .header h1 { font-size: 3rem; }
-            .building-box { padding: 20px; }
-            .build-container { height: 400px !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Host Info -->
     <div class="host-info">
         <img src="me.jpg" class="host-photo" onerror="this.src='https://placeholder.com'">
         <h4>Host: Kwstas</h4>
@@ -128,7 +110,7 @@
 
     <div class="header">
         <h1>Laskos Studios</h1>
-        <p>Your Private Sanctuary Under the Grecian Sun</p>
+        <p>Select your dates (Day/Month/Year)</p>
     </div>
 
     <div class="container">
@@ -138,16 +120,15 @@
                 <div class="slideshow-container">
                     <img class="slides1 mySlides" src="r1-1.jpg" style="display:block">
                     <img class="slides1 mySlides" src="r1-2.jpg">
-                    <img class="slides1 mySlides" src="r1-3.jpg">
                     <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a><a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
                 </div>
                 <div class="card-body">
                     <h3>Apartment 1</h3>
                     <div class="booking-box">
-                        <label>Select Arrival Date:</label>
-                        <input type="date" class="in-date" onchange="updatePrice(1)">
-                        <label>Select Departure Date:</label>
-                        <input type="date" class="out-date" onchange="updatePrice(1)">
+                        <label>Arrival Date:</label>
+                        <input type="text" class="date-input in-date" placeholder="DD/MM/2026">
+                        <label>Departure Date:</label>
+                        <input type="text" class="date-input out-date" placeholder="DD/MM/2026">
                         <div id="total-box1" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(1)">BOOK NOW</button>
                     </div>
@@ -164,10 +145,10 @@
                 <div class="card-body">
                     <h3>Apartment 2</h3>
                     <div class="booking-box">
-                        <label>Select Arrival Date:</label>
-                        <input type="date" class="in-date" onchange="updatePrice(2)">
-                        <label>Select Departure Date:</label>
-                        <input type="date" class="out-date" onchange="updatePrice(2)">
+                        <label>Arrival Date:</label>
+                        <input type="text" class="date-input in-date" placeholder="DD/MM/2026">
+                        <label>Departure Date:</label>
+                        <input type="text" class="date-input out-date" placeholder="DD/MM/2026">
                         <div id="total-box2" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(2)">BOOK NOW</button>
                     </div>
@@ -184,10 +165,10 @@
                 <div class="card-body">
                     <h3>Apartment 3</h3>
                     <div class="booking-box">
-                        <label>Select Arrival Date:</label>
-                        <input type="date" class="in-date" onchange="updatePrice(3)">
-                        <label>Select Departure Date:</label>
-                        <input type="date" class="out-date" onchange="updatePrice(3)">
+                        <label>Arrival Date:</label>
+                        <input type="text" class="date-input in-date" placeholder="DD/MM/2026">
+                        <label>Departure Date:</label>
+                        <input type="text" class="date-input out-date" placeholder="DD/MM/2026">
                         <div id="total-box3" class="total-price-box"></div>
                         <button class="btn-book-now" onclick="openBooking(3)">BOOK NOW</button>
                     </div>
@@ -195,41 +176,29 @@
             </div>
         </div>
 
-        <!-- BUILDING SECTION -->
         <div class="building-box">
-            <h2>Building & Interior Design</h2>
+            <h2 style="color:var(--primary)">Building & Interior Design</h2>
             <div class="slideshow-container build-container">
                 <img class="slidesB mySlides build-slides" src="b1.jpg" style="display:block">
                 <img class="slidesB mySlides build-slides" src="b2.jpg">
-                <img class="slidesB mySlides build-slides" src="b3.jpg">
-                <img class="slidesB mySlides build-slides" src="b4.jpg">
-                <img class="slidesB mySlides build-slides" src="b5.jpg">
-                <img class="slidesB mySlides build-slides" src="b6.jpg">
-                <img class="slidesB mySlides build-slides" src="b7.jpg">
-                <img class="slidesB mySlides build-slides" src="b8.jpg">
-                <img class="slidesB mySlides build-slides" src="b9.jpg">
-                <img class="slidesB mySlides build-slides" src="b10.jpg">
                 <a class="prev" onclick="plusSlides(-1, 3)">&#10094;</a><a class="next" onclick="plusSlides(1, 3)">&#10095;</a>
             </div>
-            <p style="margin-top: 30px; color: #ddd; font-size: 1.2rem;">Architectural excellence meets premium seaside accommodation.</p>
         </div>
     </div>
 
-    <!-- CHOICE MODAL -->
     <div id="choiceModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h3 id="modalTitle" style="color:var(--accent); font-size: 1.8rem; margin-bottom: 25px;">Reserve Your Stay</h3>
+            <h3 id="modalTitle" style="color:var(--primary); font-size: 1.8rem; margin-bottom: 25px;">Reserve Your Stay</h3>
             <a href="#" id="linkWA" class="choice-btn choice-wa" target="_blank">Contact via WhatsApp</a>
             <a href="#" id="linkViber" class="choice-btn choice-viber" target="_blank">Contact via Viber</a>
             <a href="javascript:void(0)" class="choice-btn choice-chat" onclick="closeModal(); Tawk_API.toggle()">Start Live Chat</a>
         </div>
     </div>
 
-    <footer>&copy; 2026 Laskos Studios | Constantinos Zois Tsakiroglou</footer>
-
+    <script src="https://jsdelivr.net"></script>
     <script>
-        let slideIndex = [1, 1, 1, 1];
+        let slideIndex =;
         let slideId = ["slides1", "slides2", "slides3", "slidesB"];
         function plusSlides(n, no) { showSlides(slideIndex[no] += n, no); }
         function showSlides(n, no) {
@@ -239,40 +208,61 @@
             x[slideIndex[no]-1].style.display = "block";
         }
 
-        window.onload = function() {
-            const year = 2026; const month = "05"; const day = "01";
-            const defaultValue = `${year}-${month}-${day}`;
-            document.querySelectorAll('input[type="date"]').forEach(el => {
-                el.value = defaultValue; el.min = "2026-01-01"; el.max = "2026-12-31";
-            });
-        };
-
+        // Τιμοκατάλογος
         const monthPrices = { 0:50, 1:50, 2:50, 3:70, 4:80, 5:110, 6:150, 7:150, 8:100, 9:80, 10:50, 11:50 };
 
-        function calculate(id) {
+        // Αρχικοποίηση Flatpickr (Day/Month/Year)
+        document.addEventListener('DOMContentLoaded', function() {
+            const configs = {
+                dateFormat: "d/m/Y",
+                minDate: "01/01/2026",
+                maxDate: "31/12/2026",
+                defaultDate: "01/05/2026",
+                onChange: function(selectedDates, dateStr, instance) {
+                    const id = instance.element.closest('.card').id.replace('apt', '');
+                    updatePrice(id);
+                }
+            };
+            flatpickr(".date-input", configs);
+        });
+
+        function calculateTotal(id) {
             const card = document.getElementById('apt' + id);
-            const inVal = card.querySelector('.in-date').value;
-            const outVal = card.querySelector('.out-date').value;
-            if (!inVal || !outVal) return null;
-            let start = new Date(inVal); let end = new Date(outVal);
+            const inStr = card.querySelector('.in-date').value;
+            const outStr = card.querySelector('.out-date').value;
+            if (!inStr || !outStr) return null;
+
+            // Μετατροπή DD/MM/YYYY σε Date Object
+            const parseDate = (str) => {
+                const parts = str.split('/');
+                return new Date(parts[2], parts[1] - 1, parts[0]);
+            };
+
+            let start = parseDate(inStr);
+            let end = parseDate(outStr);
             if (end <= start) return null;
-            let total = 0; let nights = 0; let curr = new Date(start);
-            while (curr < end) { total += monthPrices[curr.getMonth()]; nights++; curr.setDate(curr.getDate() + 1); }
-            return { total, nights, inVal, outVal };
+
+            let total = 0; let nights = 0; let current = new Date(start);
+            while (current < end) {
+                total += monthPrices[current.getMonth()];
+                nights++;
+                current.setDate(current.getDate() + 1);
+            }
+            return { total, nights, inStr, outStr };
         }
 
         function updatePrice(id) {
-            const res = calculate(id);
+            const res = calculateTotal(id);
             const box = document.getElementById('total-box' + id);
             if (res) { box.innerText = `TOTAL: ${res.total}€ (${res.nights} NIGHTS)`; box.style.display = "block"; }
             else { box.style.display = "none"; }
         }
 
         function openBooking(id) {
-            const res = calculate(id);
-            if (!res) { alert("Please select your stay dates first!"); return; }
+            const res = calculateTotal(id);
+            if (!res) { alert("Please select valid dates (Day/Month/Year)!"); return; }
             const phone = "306984725380";
-            const text = `BOOKING REQUEST: Apartment ${id}%0ACheck-in: ${res.inVal}%0ACheck-out: ${res.outVal}%0ATotal: ${res.total}€`;
+            const text = `BOOKING REQUEST: Apartment ${id}%0ACheck-in: ${res.inStr}%0ACheck-out: ${res.outStr}%0ANights: ${res.nights}%0ATotal: ${res.total}€`;
             document.getElementById('linkWA').href = `https://wa.me{phone}?text=${text}`;
             document.getElementById('linkViber').href = `viber://chat?number=${phone}&draft=${text}`;
             document.getElementById('modalTitle').innerText = `Apartment ${id}: ${res.total}€`;
@@ -281,7 +271,7 @@
         function closeModal() { document.getElementById('choiceModal').style.display = "none"; }
     </script>
 
-    <!-- Tawk.to Script -->
+    <!-- Tawk.to -->
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
