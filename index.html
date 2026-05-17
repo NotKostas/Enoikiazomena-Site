@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laskos Studios – Premium Seaside Accommodation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #e8cc7a;
+            --navy: #05142a;
+            --blue-glow: #1a6adf;
+            --white: #f7f5ef;
+            --glass-border: rgba(201,168,76,0.2);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'DM Sans',sans-serif; background:var(--navy); color:var(--white); min-height:100vh; overflow-x:hidden; }
+        body::before { content:''; position:fixed; inset:0; background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(26,106,223,0.18) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 80%, rgba(201,168,76,0.10) 0%, transparent 55%), linear-gradient(160deg,#05142a 0%,#071e3d 40%,#0a2a55 70%,#071e3d 100%); z-index:-1; }
+
+        /* HOST */
+        .host-card { position:fixed; top:24px; left:24px; background:rgba(5,20,42,0.88); border:1px solid var(--glass-border); backdrop-filter:blur(20px); border-radius:20px; padding:18px 20px; z-index:1000; width:210px; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.4); transition:transform 0.3s; }
+        .host-card:hover { transform:translateY(-3px); }
+        .host-photo { width:72px; height:72px; border-radius:50%; object-fit:cover; border:2px solid var(--gold); margin-bottom:10px; box-shadow:0 0 20px rgba(201,168,76,0.3); background:#0a2145; display:block; margin-left:auto; margin-right:auto; }
+        .host-name { font-family:'Playfair Display',serif; font-size:15px; color:var(--gold); margin-bottom:6px; }
+        .host-detail { font-size:11px; color:rgba(247,245,239,0.65); margin:3px 0; display:flex; align-items:center; justify-content:center; gap:6px; }
+        .host-detail i { color:var(--gold); font-size:10px; }
+
+        /* HERO */
+        .hero { text-align:center; padding:120px 20px 50px; }
+        .hero-eyebrow { font-size:12px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; opacity:0; animation:fadeUp 0.8s 0.2s forwards; }
+        .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(3rem,8vw,6rem); font-weight:900; line-height:1; background:linear-gradient(135deg,#fff 30%,var(--gold-light) 70%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:16px; opacity:0; animation:fadeUp 0.8s 0.4s forwards; }
+        .hero-sub { font-size:16px; color:rgba(247,245,239,0.55); letter-spacing:1px; opacity:0; animation:fadeUp 0.8s 0.6s forwards; }
+        .hero-divider { width:60px; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:24px auto; opacity:0; animation:fadeUp 0.8s 0.8s forwards; }
+
+        /* INFO PILLS */
+        .info-strip { max-width:960px; margin:0 auto 50px; display:flex; flex-wrap:wrap; justify-content:center; gap:16px; opacity:0; animation:fadeUp 0.8s 1s forwards; }
+        .info-pill { display:flex; align-items:center; gap:10px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.25); border-radius:50px; padding:11px 22px; font-size:13px; color:rgba(247,245,239,0.85); }
+        .info-pill i { color:var(--gold); font-size:16px; }
+
+        /* LEGEND */
+        .avail-legend { display:flex; justify-content:center; gap:24px; margin-bottom:40px; flex-wrap:wrap; opacity:0; animation:fadeUp 0.8s 1.1s forwards; }
+        .legend-item { display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(247,245,239,0.7); }
+        .legend-dot { width:12px; height:12px; border-radius:3px; }
+        .dot-available { background:#27ae60; } .dot-booked { background:#e74c3c; } .dot-loading { background:var(--gold); animation:pulse 1.5s infinite; }
+
+        /* GRID */
+        .container { max-width:1320px; margin:auto; padding:0 24px 80px; }
+        .apartments-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:28px; }
+
+        /* CARD */
+        .card { background:rgba(10,33,69,0.7); border:1px solid var(--glass-border); border-radius:28px; overflow:visible; backdrop-filter:blur(16px); box-shadow:0 20px 60px rgba(0,0,0,0.4); display:flex; flex-direction:column; transition:transform 0.35s,box-shadow 0.35s; opacity:0; animation:cardIn 0.7s forwards; }
+        .card-inner-overflow { border-radius:28px; overflow:hidden; }
+        .card:nth-child(1){animation-delay:0.3s} .card:nth-child(2){animation-delay:0.5s} .card:nth-child(3){animation-delay:0.7s}
+        .card:hover { transform:translateY(-8px); box-shadow:0 32px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(201,168,76,0.3); }
+
+        /* SLIDESHOW */
+        .slideshow-wrap { position:relative; height:280px; background:#000; overflow:hidden; border-radius:28px 28px 0 0; }
+        .slide-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 0.5s ease; }
+        .slide-img.active { opacity:1; }
+        .slide-counter { position:absolute; bottom:12px; right:14px; background:rgba(0,0,0,0.6); border-radius:20px; padding:3px 10px; font-size:11px; color:rgba(255,255,255,0.8); backdrop-filter:blur(4px); z-index:6; }
+        .slide-btn { position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:50%; color:white; font-size:15px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:5; transition:background 0.2s; user-select:none; }
+        .slide-btn:hover { background:rgba(201,168,76,0.5); }
+        .slide-btn.prev { left:12px; } .slide-btn.next { right:12px; }
+
+        /* BUILDING – object-fit contain so full image shows */
+        .building-slideshow { position:relative; height:500px; background:#0a1a2e; overflow:hidden; }
+        .building-slideshow .slide-img { object-fit:contain; background:#0a1a2e; }
+
+        /* BADGE */
+        .avail-badge { position:absolute; top:14px; left:14px; padding:5px 12px; border-radius:20px; font-size:11px; font-weight:600; backdrop-filter:blur(8px); z-index:10; display:flex; align-items:center; gap:6px; }
+        .badge-loading { background:rgba(201,168,76,0.25); border:1px solid rgba(201,168,76,0.4); color:var(--gold); }
+        .badge-available { background:rgba(39,174,96,0.25); border:1px solid rgba(39,174,96,0.4); color:#5dde8f; }
+        .badge-booked { background:rgba(231,76,60,0.25); border:1px solid rgba(231,76,60,0.4); color:#f08080; }
+        .badge-dot { width:7px; height:7px; border-radius:50%; }
+        .badge-available .badge-dot { background:#27ae60; box-shadow:0 0 6px #27ae60; }
+        .badge-booked .badge-dot { background:#e74c3c; box-shadow:0 0 6px #e74c3c; }
+        .badge-loading .badge-dot { background:var(--gold); animation:pulse 1.2s infinite; }
+
+        /* CARD BODY */
+        .card-body { padding:24px; display:flex; flex-direction:column; gap:14px; flex:1; position:relative; }
+        .apt-name { font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--gold-light); text-align:center; }
+        .amenities { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
+        .tag { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:5px 11px; font-size:11px; color:rgba(247,245,239,0.75); display:flex; align-items:center; gap:5px; }
+        .tag i { color:var(--gold); font-size:10px; }
+        .beds { text-align:center; font-size:12px; color:rgba(247,245,239,0.55); display:flex; align-items:center; justify-content:center; gap:6px; }
+        .beds i { color:var(--gold); }
+
+        /* BOOKING BOX */
+        .booking-box { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:18px; padding:16px; display:flex; flex-direction:column; gap:12px; position:relative; }
+
+        /* DATE TABS – Booking.com style */
+        .date-tabs { display:grid; grid-template-columns:1fr 1fr; border:2px solid var(--gold); border-radius:12px; overflow:hidden; cursor:pointer; }
+        .date-tab { display:flex; flex-direction:column; padding:11px 14px; background:rgba(5,20,42,0.7); transition:background 0.2s; position:relative; user-select:none; }
+        .date-tab:first-child { border-right:1px solid rgba(201,168,76,0.35); }
+        .date-tab.active-tab { background:rgba(201,168,76,0.14); }
+        .date-tab:hover { background:rgba(201,168,76,0.09); }
+        .tab-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:4px; display:flex; align-items:center; gap:5px; }
+        .tab-value { font-size:14px; font-weight:600; color:var(--white); }
+        .tab-placeholder { font-size:13px; color:rgba(247,245,239,0.35); font-weight:400; }
+
+        /* CALENDAR POPUP */
+        .cal-popup { display:none; position:absolute; left:0; right:0; top:calc(100% + 8px); z-index:999; background:#0d2444; border:1px solid var(--glass-border); border-radius:16px; padding:18px; box-shadow:0 24px 60px rgba(0,0,0,0.7); }
+        .cal-popup.open { display:block; }
+        .cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+        .cal-month-name { font-family:'Playfair Display',serif; font-size:15px; color:var(--gold-light); }
+        .cal-nav { background:none; border:none; color:var(--white); font-size:20px; cursor:pointer; padding:4px 10px; border-radius:8px; transition:background 0.2s; line-height:1; }
+        .cal-nav:hover { background:rgba(255,255,255,0.1); }
+        .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+        .cal-dow { text-align:center; font-size:10px; color:rgba(247,245,239,0.4); padding:5px 0; font-weight:600; }
+        .cal-day { text-align:center; padding:7px 2px; font-size:13px; border-radius:8px; cursor:pointer; transition:background 0.15s,color 0.15s; color:var(--white); min-height:32px; display:flex; align-items:center; justify-content:center; }
+        .cal-day:hover:not(.cal-disabled):not(.cal-booked):not(.cal-empty) { background:rgba(201,168,76,0.25); }
+        .cal-disabled { color:rgba(247,245,239,0.2); cursor:not-allowed; }
+        .cal-booked { background:rgba(231,76,60,0.12); color:rgba(231,76,60,0.55); cursor:not-allowed; text-decoration:line-through; }
+        .cal-in-range { background:rgba(26,106,223,0.2); border-radius:0; }
+        .cal-range-start { background:var(--gold)!important; color:#000!important; border-radius:8px 0 0 8px; font-weight:700; }
+        .cal-range-end { background:var(--gold)!important; color:#000!important; border-radius:0 8px 8px 0; font-weight:700; }
+        .cal-range-start.cal-range-end { border-radius:8px; }
+        .cal-today { outline:1px solid rgba(201,168,76,0.5); outline-offset:-1px; }
+        .cal-empty { cursor:default; }
+        .cal-summary { margin-top:12px; text-align:center; font-size:12px; color:rgba(247,245,239,0.5); }
+        .cal-close-btn { display:block; width:100%; margin-top:14px; background:var(--gold); color:#000; border:none; border-radius:8px; padding:9px; font-weight:700; font-size:13px; cursor:pointer; transition:background 0.2s; }
+        .cal-close-btn:hover { background:var(--gold-light); }
+
+        /* PRICE + WARNING */
+        .price-display { background:linear-gradient(135deg,rgba(39,174,96,0.15),rgba(39,174,96,0.05)); border:1px solid rgba(39,174,96,0.3); border-radius:12px; padding:12px 16px; text-align:center; display:none; }
+        .price-amount { font-family:'Playfair Display',serif; font-size:1.5rem; color:#5dde8f; }
+        .price-nights { font-size:11px; color:rgba(247,245,239,0.5); margin-top:2px; }
+        .dates-warning { display:none; background:rgba(231,76,60,0.12); border:1px solid rgba(231,76,60,0.3); border-radius:10px; padding:10px 14px; font-size:12px; color:#f08080; text-align:center; }
+
+        /* BOOK BTN */
+        .btn-book { width:100%; padding:16px; border-radius:14px; border:none; background:linear-gradient(135deg,var(--blue-glow),#0a52b8); color:white; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:700; letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:all 0.25s; box-shadow:0 4px 20px rgba(26,106,223,0.35); }
+        .btn-book:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(26,106,223,0.5); }
+
+        /* BUILDING SECTION */
+        .building-section { max-width:900px; margin:60px auto; background:rgba(10,33,69,0.6); border:1px solid var(--glass-border); border-radius:28px; overflow:hidden; backdrop-filter:blur(16px); box-shadow:0 20px 60px rgba(0,0,0,0.4); }
+        .building-header { padding:28px 32px 20px; text-align:center; }
+        .building-header h2 { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--gold-light); }
+        .building-header p { font-size:13px; color:rgba(247,245,239,0.5); margin-top:6px; }
+
+        /* MODAL */
+        .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(12px); z-index:9999; align-items:center; justify-content:center; }
+        .modal-overlay.open { display:flex; }
+        .modal-box { background:linear-gradient(160deg,#071e3d,#0a2a55); border:1px solid var(--glass-border); border-radius:32px; padding:40px 36px; max-width:420px; width:90%; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,0.6); animation:modalIn 0.35s cubic-bezier(.22,.68,0,.99); }
+        .modal-title { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--gold-light); margin-bottom:6px; }
+        .modal-subtitle { font-size:13px; color:rgba(247,245,239,0.5); margin-bottom:24px; }
+        .modal-summary { background:rgba(255,255,255,0.05); border-radius:14px; padding:14px 18px; margin-bottom:20px; font-size:14px; color:rgba(247,245,239,0.8); line-height:1.7; }
+        .modal-summary strong { color:var(--gold-light); }
+        .contact-btn { display:flex; align-items:center; justify-content:center; gap:12px; width:100%; padding:15px; border-radius:14px; margin-bottom:10px; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:700; text-decoration:none; color:white; border:none; cursor:pointer; transition:all 0.25s; }
+        .btn-viber { background:linear-gradient(135deg,#7360f2,#5b4dd1); }
+        .btn-viber:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(115,96,242,0.4); }
+        .btn-email { background:linear-gradient(135deg,#1a6adf,#0a52b8); }
+        .btn-email:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(26,106,223,0.4); }
+        .btn-phone { background:linear-gradient(135deg,#27ae60,#1e8449); }
+        .btn-phone:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(39,174,96,0.4); }
+        .btn-chat { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); }
+        .btn-chat:hover { background:rgba(255,255,255,0.14); transform:translateY(-2px); }
+        .modal-close { margin-top:14px; background:none; border:none; color:rgba(247,245,239,0.4); font-size:13px; cursor:pointer; }
+        .modal-close:hover { color:rgba(247,245,239,0.8); }
+
+        footer { text-align:center; padding:40px 20px; font-size:12px; color:rgba(247,245,239,0.3); border-top:1px solid rgba(255,255,255,0.05); }
+        footer span { color:var(--gold); }
+
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes cardIn { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes modalIn { from{opacity:0;transform:scale(0.9) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        @media(max-width:768px){
+            .host-card{position:static;width:90%;margin:20px auto}
+            .hero{padding:30px 20px 40px}
+            .apartments-grid{grid-template-columns:1fr}
+            .building-slideshow{height:300px}
+        }
+    </style>
+</head>
+<body>
+
+<!-- HOST CARD -->
+<div class="host-card">
+    <img class="host-photo" id="hostImg"
+         src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/me.png"
+         onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=K&background=c9a84c&color=000&size=80&bold=true'">
+    <div class="host-name">Host: Kwstas</div>
+    <div class="host-detail"><i class="fas fa-phone"></i> 6984725380</div>
+    <div class="host-detail"><i class="fas fa-envelope"></i> tsakirogloukostas928@gmail.com</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-eyebrow">✦ Premium Seaside Accommodation ✦</div>
+    <h1>Laskos Studios</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">Άνεση δίπλα στη θάλασσα — Άμεση κράτηση</p>
+</div>
+
+<div class="container">
+
+    <!-- INFO PILLS -->
+    <div class="info-strip">
+        <div class="info-pill"><i class="fas fa-users"></i> Ιδανικό για οικογένειες</div>
+        <div class="info-pill"><i class="fas fa-water"></i> 150μ από την παραλία</div>
+        <div class="info-pill"><i class="fas fa-map-marker-alt"></i> Κέντρο Νέας Καλλικράτειας</div>
+        <div class="info-pill"><i class="fas fa-star"></i> Premium διαμερίσματα</div>
+    </div>
+
+    <!-- LEGEND -->
+    <div class="avail-legend">
+        <div class="legend-item"><span class="legend-dot dot-loading"></span> Έλεγχος διαθεσιμότητας…</div>
+        <div class="legend-item"><span class="legend-dot dot-available"></span> Διαθέσιμο</div>
+        <div class="legend-item"><span class="legend-dot dot-booked"></span> Κλεισμένο (Booking.com)</div>
+    </div>
+
+    <!-- APARTMENTS GRID -->
+    <div class="apartments-grid">
+
+        <!-- ═══ APT 1 ═══ -->
+        <div class="card">
+            <div class="slideshow-wrap" id="ss0">
+                <img class="slide-img active" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r1-1.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r1-2.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r1-3.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r1-4.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r1-5.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r1-6.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r1-7.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r1-8.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r1-9.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r1-10.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r1-11.jpg">
+                <div class="avail-badge badge-loading" id="badge1"><span class="badge-dot"></span><span id="badge1-text">Checking…</span></div>
+                <div class="slide-counter" id="cnt0">1 / 11</div>
+                <button class="slide-btn prev" onclick="slideShow(0,-1)">&#8249;</button>
+                <button class="slide-btn next" onclick="slideShow(0,1)">&#8250;</button>
+            </div>
+            <div class="card-body">
+                <h3 class="apt-name">Apartment 1</h3>
+                <div class="amenities">
+                    <span class="tag"><i class="fas fa-wifi"></i> Free WiFi</span>
+                    <span class="tag"><i class="fas fa-snowflake"></i> A/C</span>
+                    <span class="tag"><i class="fas fa-utensils"></i> Kitchenette</span>
+                    <span class="tag"><i class="fas fa-tv"></i> Smart TV</span>
+                </div>
+                <div class="beds"><i class="fas fa-bed"></i> 1 Διπλό + 1 Κουκέτα · έως 4 άτομα</div>
+                <div class="booking-box">
+                    <div class="date-tabs">
+                        <div class="date-tab active-tab" id="tab1-in" onclick="openCal(1,'in')">
+                            <span class="tab-label"><i class="far fa-calendar"></i> Check-in</span>
+                            <div class="tab-value" id="disp1-in"><span class="tab-placeholder">Ημ. άφιξης</span></div>
+                        </div>
+                        <div class="date-tab" id="tab1-out" onclick="openCal(1,'out')">
+                            <span class="tab-label"><i class="far fa-calendar"></i> Check-out</span>
+                            <div class="tab-value" id="disp1-out"><span class="tab-placeholder">Ημ. αναχώρησης</span></div>
+                        </div>
+                    </div>
+                    <div class="cal-popup" id="cal1"></div>
+                    <div class="dates-warning" id="warn1">⚠ Ορισμένες ημερομηνίες είναι κλεισμένες</div>
+                    <div class="price-display" id="price1"><div class="price-amount" id="pamt1"></div><div class="price-nights" id="pnts1"></div></div>
+                    <button class="btn-book" onclick="openModal(1)">ΚΡΑΤΗΣΗ ΤΩΡΑ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ APT 2 ═══ -->
+        <div class="card">
+            <div class="slideshow-wrap" id="ss1">
+                <img class="slide-img active" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r2-1.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r2-2.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r2-3.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r2-4.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r2-5.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r2-6.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r2-7.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r2-8.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r2-9.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r2-10.jpg">
+                <div class="avail-badge badge-loading" id="badge2"><span class="badge-dot"></span><span id="badge2-text">Checking…</span></div>
+                <div class="slide-counter" id="cnt1">1 / 10</div>
+                <button class="slide-btn prev" onclick="slideShow(1,-1)">&#8249;</button>
+                <button class="slide-btn next" onclick="slideShow(1,1)">&#8250;</button>
+            </div>
+            <div class="card-body">
+                <h3 class="apt-name">Apartment 2</h3>
+                <div class="amenities">
+                    <span class="tag"><i class="fas fa-wifi"></i> Free WiFi</span>
+                    <span class="tag"><i class="fas fa-snowflake"></i> A/C</span>
+                    <span class="tag"><i class="fas fa-utensils"></i> Kitchenette</span>
+                    <span class="tag"><i class="fas fa-tv"></i> Smart TV</span>
+                </div>
+                <div class="beds"><i class="fas fa-bed"></i> 1 Διπλό + 1 Κουκέτα · έως 4 άτομα</div>
+                <div class="booking-box">
+                    <div class="date-tabs">
+                        <div class="date-tab active-tab" id="tab2-in" onclick="openCal(2,'in')">
+                            <span class="tab-label"><i class="far fa-calendar"></i> Check-in</span>
+                            <div class="tab-value" id="disp2-in"><span class="tab-placeholder">Ημ. άφιξης</span></div>
+                        </div>
+                        <div class="date-tab" id="tab2-out" onclick="openCal(2,'out')">
+                            <span class="tab-label"><i class="far fa-calendar"></i> Check-out</span>
+                            <div class="tab-value" id="disp2-out"><span class="tab-placeholder">Ημ. αναχώρησης</span></div>
+                        </div>
+                    </div>
+                    <div class="cal-popup" id="cal2"></div>
+                    <div class="dates-warning" id="warn2">⚠ Ορισμένες ημερομηνίες είναι κλεισμένες</div>
+                    <div class="price-display" id="price2"><div class="price-amount" id="pamt2"></div><div class="price-nights" id="pnts2"></div></div>
+                    <button class="btn-book" onclick="openModal(2)">ΚΡΑΤΗΣΗ ΤΩΡΑ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ APT 3 ═══ -->
+        <div class="card">
+            <div class="slideshow-wrap" id="ss2">
+                <img class="slide-img active" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-1.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-2.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-3.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-4.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-5.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-6.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-7.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-8.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-9.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-10.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-11.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-12.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-13.jpg">
+                <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/r3-14.jpg">
+                <div class="avail-badge badge-loading" id="badge3"><span class="badge-dot"></span><span id="badge3-text">Checking…</span></div>
+                <div class="slide-counter" id="cnt2">1 / 14</div>
+                <button class="slide-btn prev" onclick="slideShow(2,-1)">&#8249;</button>
+                <button class="slide-btn next" onclick="slideShow(2,1)">&#8250;</button>
+            </div>
+            <div class="card-body">
+                <h3 class="apt-name">Apartment 3</h3>
+                <div class="amenities">
+                    <span class="tag"><i class="fas fa-wifi"></i> Free WiFi</span>
+                    <span class="tag"><i class="fas fa-snowflake"></i> A/C</span>
+                    <span class="tag"><i class="fas fa-utensils"></i> Kitchenette</span>
+                    <span class="tag"><i class="fas fa-tv"></i> Smart TV</span>
+                </div>
+                <div class="beds"><i class="fas fa-bed"></i> 1 Διπλό + 1 Κουκέτα · έως 4 άτομα</div>
+                <div class="booking-box">
+                    <div class="date-tabs">
+                        <div class="date-tab active-tab" id="tab3-in" onclick="openCal(3,'in')">
+                            <span class="tab-label"><i class="far fa-calendar"></i> Check-in</span>
+                            <div class="tab-value" id="disp3-in"><span class="tab-placeholder">Ημ. άφιξης</span></div>
+                        </div>
+                        <div class="date-tab" id="tab3-out" onclick="openCal(3,'out')">
+                            <span class="tab-label"><i class="far fa-calendar"></i> Check-out</span>
+                            <div class="tab-value" id="disp3-out"><span class="tab-placeholder">Ημ. αναχώρησης</span></div>
+                        </div>
+                    </div>
+                    <div class="cal-popup" id="cal3"></div>
+                    <div class="dates-warning" id="warn3">⚠ Ορισμένες ημερομηνίες είναι κλεισμένες</div>
+                    <div class="price-display" id="price3"><div class="price-amount" id="pamt3"></div><div class="price-nights" id="pnts3"></div></div>
+                    <button class="btn-book" onclick="openModal(3)">ΚΡΑΤΗΣΗ ΤΩΡΑ</button>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /grid -->
+
+    <!-- BUILDING -->
+    <div class="building-section">
+        <div class="building-header">
+            <h2>Το Κτήριο</h2>
+            <p>Εξωτερικός χώρος &amp; περιβάλλον</p>
+        </div>
+        <div class="building-slideshow" id="ssB">
+            <img class="slide-img active" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/b1.jpg">
+            <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/b2.jpg">
+            <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/b3.jpg">
+            <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/b4.jpg">
+            <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/b5.jpg">
+            <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/b6.jpg">
+            <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/b7.jpg">
+            <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/b8.jpg">
+            <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/b9.jpg">
+            <img class="slide-img" src="https://raw.githubusercontent.com/NotKostas/Laskos-Studios/main/b10.jpg">
+            <div class="slide-counter" id="cntB">1 / 10</div>
+            <button class="slide-btn prev" onclick="slideShow('B',-1)">&#8249;</button>
+            <button class="slide-btn next" onclick="slideShow('B',1)">&#8250;</button>
+        </div>
+    </div>
+
+</div><!-- /container -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="modal-box">
+        <div class="modal-title">Ολοκλήρωση Κράτησης</div>
+        <div class="modal-subtitle" id="modal-sub"></div>
+        <div class="modal-summary" id="modal-summary"></div>
+        <a href="#" id="btn-viber" class="contact-btn btn-viber" target="_blank">
+            <i class="fab fa-viber" style="font-size:20px"></i> Μήνυμα στο Viber
+        </a>
+        <a href="#" id="btn-email" class="contact-btn btn-email">
+            <i class="fas fa-envelope" style="font-size:18px"></i> Αποστολή Email
+        </a>
+        <a href="tel:+306984725380" class="contact-btn btn-phone">
+            <i class="fas fa-phone" style="font-size:18px"></i> Τηλεφωνική Κλήση
+        </a>
+        <button class="contact-btn btn-chat" onclick="openChat()">
+            <i class="fa fa-comments" style="font-size:18px"></i> Live Chat
+        </button>
+        <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕ Κλείσιμο</button>
+    </div>
+</div>
+
+<footer>&copy; 2026 <span>Laskos Studios</span> &nbsp;·&nbsp; Kwnstantinos Zois Tsakiroglou</footer>
+
+<!-- TAWK.TO -->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true; s1.src='https://embed.tawk.to/69f4bc645ac9531c37ee0d24/1jnhvvqs6';
+s1.charset='UTF-8'; s1.setAttribute('crossorigin','*'); s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+
+<script>
+// ════════════════════════════════
+// SLIDESHOW
+// ════════════════════════════════
+const slideIdx={0:0,1:0,2:0,'B':0};
+function slideShow(id,dir){
+    const wrap=document.getElementById('ss'+id);
+    const imgs=wrap.querySelectorAll('.slide-img');
+    imgs[slideIdx[id]].classList.remove('active');
+    slideIdx[id]=(slideIdx[id]+dir+imgs.length)%imgs.length;
+    imgs[slideIdx[id]].classList.add('active');
+    const cnt=document.getElementById('cnt'+id);
+    if(cnt) cnt.textContent=(slideIdx[id]+1)+' / '+imgs.length;
+}
+
+// ════════════════════════════════
+// PRICING
+// ════════════════════════════════
+const rates={0:50,1:50,2:50,3:70,4:80,5:110,6:150,7:150,8:100,9:80,10:50,11:50};
+const selDates={1:{in:null,out:null},2:{in:null,out:null},3:{in:null,out:null}};
+
+function calcAndShow(n){
+    const d=selDates[n];
+    const pd=document.getElementById('price'+n);
+    const warn=document.getElementById('warn'+n);
+    if(!d.in||!d.out){pd.style.display='none';warn.style.display='none';return;}
+    const start=new Date(d.in),end=new Date(d.out);
+    if(end<=start){pd.style.display='none';return;}
+    let total=0,nights=0,cur=new Date(start);
+    while(cur<end){total+=rates[cur.getMonth()];nights++;cur.setDate(cur.getDate()+1);}
+    document.getElementById('pamt'+n).textContent=total+'€';
+    document.getElementById('pnts'+n).textContent=nights+' βράδι'+(nights===1?'':'α');
+    pd.style.display='block';
+    const booked=bookedDates[n]||new Set();
+    let conflict=false;cur=new Date(start);
+    while(cur<end){if(booked.has(cur.toISOString().split('T')[0])){conflict=true;break;}cur.setDate(cur.getDate()+1);}
+    warn.style.display=conflict?'block':'none';
+}
+
+// ════════════════════════════════
+// CALENDAR
+// ════════════════════════════════
+const MONTHS=['Ιανουάριος','Φεβρουάριος','Μάρτιος','Απρίλιος','Μάιος','Ιούνιος','Ιούλιος','Αύγουστος','Σεπτέμβριος','Οκτώβριος','Νοέμβριος','Δεκέμβριος'];
+const MONTHS_SHORT=['Ιαν','Φεβ','Μαρ','Απρ','Μαΐ','Ιουν','Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'];
+const DAYS_SHORT=['Δευ','Τρι','Τετ','Πεμ','Παρ','Σαβ','Κυρ'];
+const DAYS_MINI=['Δε','Τρ','Τε','Πε','Πα','Σα','Κυ'];
+
+let calState={apt:null,mode:null,y:new Date().getFullYear(),m:new Date().getMonth()};
+
+function openCal(apt,mode){
+    // close others
+    [1,2,3].forEach(n=>{if(n!==apt)document.getElementById('cal'+n).classList.remove('open');});
+    const already=document.getElementById('cal'+apt).classList.contains('open')&&calState.apt===apt&&calState.mode===mode;
+    if(already){document.getElementById('cal'+apt).classList.remove('open');return;}
+    calState={apt,mode,y:new Date().getFullYear(),m:new Date().getMonth()};
+    if(mode==='out'&&selDates[apt].in){const d=new Date(selDates[apt].in);calState.y=d.getFullYear();calState.m=d.getMonth();}
+    // tab highlight
+    document.getElementById('tab'+apt+'-in').classList.toggle('active-tab',mode==='in');
+    document.getElementById('tab'+apt+'-out').classList.toggle('active-tab',mode==='out');
+    renderCal();
+    document.getElementById('cal'+apt).classList.add('open');
+}
+
+function renderCal(){
+    const {apt,mode,y,m}=calState;
+    const booked=bookedDates[apt]||new Set();
+    const today=new Date();today.setHours(0,0,0,0);
+    const selIn=selDates[apt].in?new Date(selDates[apt].in):null;
+    const selOut=selDates[apt].out?new Date(selDates[apt].out):null;
+    const firstDay=new Date(y,m,1);
+    const daysInMonth=new Date(y,m+1,0).getDate();
+    const startDow=(firstDay.getDay()+6)%7; // Mon=0
+
+    let h=`<div class="cal-header">
+        <button class="cal-nav" onclick="calNav(-1)">&#8249;</button>
+        <span class="cal-month-name">${MONTHS[m]} ${y}</span>
+        <button class="cal-nav" onclick="calNav(1)">&#8250;</button>
+    </div>
+    <div class="cal-grid">
+        ${DAYS_MINI.map(d=>`<div class="cal-dow">${d}</div>`).join('')}
+        ${Array(startDow).fill('<div class="cal-day cal-empty"></div>').join('')}`;
+
+    for(let day=1;day<=daysInMonth;day++){
+        const dt=new Date(y,m,day);
+        const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        let cls='cal-day';
+        const isPast=dt<today;
+        const isBooked=booked.has(ds);
+        if(isPast) cls+=' cal-disabled';
+        else if(isBooked) cls+=' cal-booked';
+        else {
+            if(dt.toDateString()===today.toDateString()) cls+=' cal-today';
+            if(selIn&&selOut){
+                if(dt>selIn&&dt<selOut) cls+=' cal-in-range';
+            }
+            if(selIn&&ds===toDS(selIn)) cls+=' cal-range-start';
+            if(selOut&&ds===toDS(selOut)) cls+=' cal-range-end';
+        }
+        const canClick=!isPast&&!isBooked;
+        h+=`<div class="${cls}"${canClick?` onclick="pickDay('${ds}')"`:''}>${day}</div>`;
+    }
+    h+='</div>';
+
+    if(selDates[apt].in||selDates[apt].out){
+        h+=`<div class="cal-summary">${fmtD(selDates[apt].in)} → ${fmtD(selDates[apt].out)}</div>`;
+    }
+    h+=`<button class="cal-close-btn" onclick="document.getElementById('cal${apt}').classList.remove('open')">Επιβεβαίωση ✓</button>`;
+    document.getElementById('cal'+apt).innerHTML=h;
+}
+
+function toDS(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function fmtD(ds){if(!ds) return '—';return new Date(ds).toLocaleDateString('el-GR',{day:'2-digit',month:'2-digit',year:'numeric'});}
+
+function calNav(dir){
+    calState.m+=dir;
+    if(calState.m>11){calState.m=0;calState.y++;}
+    if(calState.m<0){calState.m=11;calState.y--;}
+    renderCal();
+}
+
+function pickDay(ds){
+    const {apt,mode}=calState;
+    if(mode==='in'){
+        selDates[apt].in=ds;
+        if(selDates[apt].out&&selDates[apt].out<=ds) selDates[apt].out=null;
+        updateTabDisplay(apt);
+        // auto switch to checkout
+        calState.mode='out';
+        document.getElementById('tab'+apt+'-in').classList.remove('active-tab');
+        document.getElementById('tab'+apt+'-out').classList.add('active-tab');
+    } else {
+        if(selDates[apt].in&&ds<=selDates[apt].in){
+            selDates[apt].in=ds;selDates[apt].out=null;
+            calState.mode='out';
+        } else {
+            selDates[apt].out=ds;
+        }
+        updateTabDisplay(apt);
+    }
+    calcAndShow(apt);
+    renderCal();
+}
+
+function updateTabDisplay(apt){
+    function fmtShort(ds){
+        if(!ds) return null;
+        const d=new Date(ds);
+        return `${DAYS_SHORT[(d.getDay()+6)%7]} ${d.getDate()} ${MONTHS_SHORT[d.getMonth()]}`;
+    }
+    const inEl=document.getElementById('disp'+apt+'-in');
+    const outEl=document.getElementById('disp'+apt+'-out');
+    inEl.innerHTML=selDates[apt].in?`<strong>${fmtShort(selDates[apt].in)}</strong>`:`<span class="tab-placeholder">Ημ. άφιξης</span>`;
+    outEl.innerHTML=selDates[apt].out?`<strong>${fmtShort(selDates[apt].out)}</strong>`:`<span class="tab-placeholder">Ημ. αναχώρησης</span>`;
+}
+
+// Close calendar on outside click
+document.addEventListener('click',e=>{
+    if(!e.target.closest('.booking-box')) [1,2,3].forEach(n=>document.getElementById('cal'+n).classList.remove('open'));
+});
+
+// ════════════════════════════════
+// ICAL
+// ════════════════════════════════
+const PROXY='/.netlify/functions/ical';
+const bookedDates={1:new Set(),2:new Set(),3:new Set()};
+
+function parseIcal(text){
+    const dates=new Set();
+    text.split('BEGIN:VEVENT').forEach(ev=>{
+        const s=ev.match(/DTSTART[^:]*:(\d{8})/);
+        const e=ev.match(/DTEND[^:]*:(\d{8})/);
+        if(!s||!e) return;
+        const p=x=>new Date(x.slice(0,4)+'-'+x.slice(4,6)+'-'+x.slice(6,8));
+        let cur=p(s[1]);const end=p(e[1]);
+        while(cur<end){dates.add(toDS(cur));cur.setDate(cur.getDate()+1);}
+    });
+    return dates;
+}
+
+function setBadge(n,state){
+    const b=document.getElementById('badge'+n);
+    const t=document.getElementById('badge'+n+'-text');
+    b.className='avail-badge';
+    if(state==='available'){b.classList.add('badge-available');t.textContent='Διαθέσιμο';}
+    else if(state==='booked'){b.classList.add('badge-booked');t.textContent='Κλεισμένο';}
+    else{b.classList.add('badge-loading');t.textContent='Checking…';}
+}
+
+async function loadAvailability(n){
+    try{
+        const res=await fetch(PROXY+'?room='+n);
+        if(!res.ok) throw new Error();
+        bookedDates[n]=parseIcal(await res.text());
+        const t=toDS(new Date());
+        const tmrw=new Date();tmrw.setDate(tmrw.getDate()+1);
+        setBadge(n,bookedDates[n].has(t)||bookedDates[n].has(toDS(tmrw))?'booked':'available');
+    }catch(e){setBadge(n,'available');}
+}
+
+// ════════════════════════════════
+// MODAL
+// ════════════════════════════════
+function openModal(n){
+    const d=selDates[n];
+    if(!d.in||!d.out||new Date(d.out)<=new Date(d.in)){
+        alert('Παρακαλώ επιλέξτε ημερομηνίες άφιξης και αναχώρησης!');
+        return;
+    }
+    let total=0,nights=0,cur=new Date(d.in);
+    const end=new Date(d.out);
+    while(cur<end){total+=rates[cur.getMonth()];nights++;cur.setDate(cur.getDate()+1);}
+
+    const msg=`Κράτηση: Διαμέρισμα ${n}%0ACheck-in: ${fmtD(d.in)}%0ACheck-out: ${fmtD(d.out)}%0AΒράδια: ${nights}%0AΣύνολο: ${total}€`;
+    const msgEmail=`Κράτηση: Διαμέρισμα ${n}\nCheck-in: ${fmtD(d.in)}\nCheck-out: ${fmtD(d.out)}\nΒράδια: ${nights}\nΣύνολο: ${total}€`;
+
+    document.getElementById('modal-sub').textContent=`Διαμέρισμα ${n} — ${nights} βράδι${nights===1?'':'α'} — ${total}€`;
+    document.getElementById('modal-summary').innerHTML=
+        `<strong>Διαμέρισμα ${n}</strong><br>📅 Check-in: <strong>${fmtD(d.in)}</strong><br>📅 Check-out: <strong>${fmtD(d.out)}</strong><br>🌙 ${nights} βράδι${nights===1?'':'α'} &nbsp;·&nbsp; 💶 <strong>${total}€</strong>`;
+    document.getElementById('btn-viber').href=`viber://chat?number=306984725380&draft=${msg}`;
+    document.getElementById('btn-email').href=`mailto:tsakirogloukostas928@gmail.com?subject=Κράτηση - Διαμέρισμα ${n}&body=${encodeURIComponent(msgEmail)}`;
+    document.getElementById('modal').classList.add('open');
+}
+
+function openChat(){
+    document.getElementById('modal').classList.remove('open');
+    setTimeout(()=>{
+        if(typeof Tawk_API!=='undefined'&&typeof Tawk_API.maximize==='function'){
+            Tawk_API.maximize();
+        } else {
+            const el=document.querySelector('.tawk-min-container, [id*="tawk-bubble"]');
+            if(el) el.click();
+            else alert('Το live chat φορτώνει ακόμα, δοκιμάστε σε λίγο.');
+        }
+    },150);
+}
+
+// ════════════════════════════════
+// INIT
+// ════════════════════════════════
+window.addEventListener('DOMContentLoaded',()=>{
+    loadAvailability(1);
+    loadAvailability(2);
+    loadAvailability(3);
+});
+</script>
+</body>
+</html>
